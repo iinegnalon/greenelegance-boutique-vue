@@ -15,7 +15,7 @@
         <img
           alt="New Collection"
           class="home-page-hero__image"
-          src="~/assets/images/hero-ad.png"
+          src="/images/hero-ad.png"
         />
       </div>
       <div class="home-page-hero__animated-text"><pre>SALE</pre></div>
