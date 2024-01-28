@@ -49,7 +49,7 @@ function toggleMenu() {
         />
       </NuxtLink>
       <div class="header__button-container">
-        <v-btn class="button_primary header__button" href="/login">Login</v-btn>
+        <v-btn class="header__button button_primary" href="/login">Login</v-btn>
       </div>
     </div>
   </header>
@@ -60,10 +60,13 @@ function toggleMenu() {
 @import '@/assets/css/variables.scss';
 
 .header {
+  @extend .page-width;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px;
+  padding-top: 12px;
+  padding-bottom: 12px;
 
   &__icon-container {
     img {
@@ -130,7 +133,9 @@ function toggleMenu() {
 
   &__cart-login {
     display: flex;
+    justify-self: flex-end;
     align-items: center;
+    justify-content: space-between;
     gap: 24px;
 
     img {
@@ -140,8 +145,6 @@ function toggleMenu() {
   }
 
   &__link {
-    @include underline-hover;
-
     font-size: 24px;
   }
 
@@ -150,13 +153,33 @@ function toggleMenu() {
   }
 
   &__button {
-    width: 108px;
-    height: 60px;
   }
+}
 
-  @media screen and (min-width: $desktop-breakpoint) {
+@media screen and (min-width: $tablet-breakpoint) {
+  .header {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+}
+
+@media screen and (min-width: $desktop-breakpoint) {
+  .header {
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    &__cart-login {
+      width: 23%;
+    }
+
     &__button-container {
       display: flex;
+      width: 64%;
+    }
+
+    &__button {
+      width: 100%;
+      height: 60px;
     }
 
     &__logo {
@@ -173,13 +196,12 @@ function toggleMenu() {
     &__navigation {
       display: flex;
       gap: 32px;
+      margin-left: 10%;
     }
-  }
-}
 
-@media screen and (min-width: $desktop-breakpoint) {
-  .header {
-    padding: 12px 100px;
+    &__link {
+      @include underline-hover;
+    }
   }
 }
 </style>

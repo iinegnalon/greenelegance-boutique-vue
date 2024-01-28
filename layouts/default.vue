@@ -10,8 +10,4 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
-.main-content {
-  padding: 32px;
-}
-</style>
+<style lang="scss" scoped></style>

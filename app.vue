@@ -5,10 +5,13 @@
       <Meta content="GreenElegance Boutique" name="description" />
       <Meta content="width=device-width, initial-scale=1" name="viewport" />
     </Head>
-    <NuxtLayout>
-      <v-app>
-        <NuxtPage />
-      </v-app>
-    </NuxtLayout>
+    <Body class="grid">
+      <NuxtLayout>
+        <v-app>
+          <NuxtPage />
+        </v-app>
+      </NuxtLayout>
+    </Body>
   </div>
 </template>
+<script lang="ts" setup></script>

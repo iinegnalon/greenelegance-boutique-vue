@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div class="home-page-hero">
+  <section class="home-page-hero">
     <div class="home-page-hero__content">
       <div class="home-page-hero__left">
         <p class="home-page-hero__description">Classic Exclusive</p>
@@ -20,12 +20,13 @@
       </div>
       <div class="home-page-hero__animated-text"><pre>SALE</pre></div>
     </div>
-  </div>
+  </section>
 </template>
 
 <style lang="scss" scoped>
 @import '@/assets/css/variables.scss';
 
+// Mobile
 .home-page-hero {
   display: none;
 
@@ -35,7 +36,6 @@
     height: 100vh;
     width: 100%;
     background-color: #f0f0f0;
-    padding: 0 100px;
     border-radius: 8px;
     display: flex;
     justify-content: space-between;
@@ -44,13 +44,14 @@
   }
 
   &__button {
-    width: 160px;
+    width: 36%;
+    height: 60px !important;
   }
 
   &__left {
     flex: 1;
-    padding-right: 20px;
     z-index: 2;
+    padding-left: 8.5%;
   }
 
   &__right {
@@ -58,7 +59,7 @@
     flex: 1;
     z-index: 2;
     height: 100%;
-    width: 40%;
+    width: 49%;
   }
 
   &__image {
@@ -108,8 +109,11 @@
 }
 
 @media screen and (min-width: $desktop-breakpoint) {
+}
+
+@media screen and (min-width: $desktop-breakpoint) {
   .home-page-hero {
-    display: flex;
+    display: block;
   }
 }
 </style>

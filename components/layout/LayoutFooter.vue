@@ -101,10 +101,14 @@ async function subscribe() {
 @import '@/assets/css/styles.scss';
 @import '@/assets/css/variables.scss';
 
+// Mobile
 .footer {
+  @extend .page-width;
+
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   color: white;
   background: black;
 
@@ -147,8 +151,11 @@ async function subscribe() {
   &__link {
     @include underline-hover(white);
   }
+}
 
-  @media screen and (min-width: $desktop-breakpoint) {
+// Desktop
+@media screen and (min-width: $desktop-breakpoint) {
+  .footer {
     flex-direction: row;
     justify-content: space-between;
 
@@ -178,12 +185,6 @@ async function subscribe() {
     &__contact {
       font-size: 16px;
     }
-  }
-}
-
-@media screen and (min-width: $desktop-breakpoint) {
-  .footer {
-    padding: 20px 100px;
   }
 }
 </style>

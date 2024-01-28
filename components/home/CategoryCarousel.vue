@@ -5,10 +5,10 @@ const carousel = ref(null);
 </script>
 
 <template>
-  <div class="category-carousel">
+  <section class="category-carousel">
     <div class="category-carousel__title">Shop by Categories</div>
 
-    <v-sheet class="mx-auto" max-width="1400">
+    <v-sheet class="mx-auto" max-width="1800">
       <v-slide-group v-model="carousel" show-arrows>
         <v-slide-group-item
           v-for="category in fakeDatabase.categories"
@@ -38,7 +38,7 @@ const carousel = ref(null);
         </v-slide-group-item>
       </v-slide-group>
     </v-sheet>
-  </div>
+  </section>
 </template>
 
 <style lang="scss" scoped>
@@ -56,7 +56,7 @@ const carousel = ref(null);
 .category-card {
   position: relative;
   min-width: 200px;
-  padding: 12px;
+  padding: 6px;
   transition: 0.3s;
 
   &:hover {
@@ -114,7 +114,7 @@ const carousel = ref(null);
 
   .category-card {
     min-width: 220px;
-    padding: 16px;
+    padding: 8px;
 
     &__name-background-container {
       width: 180px;
@@ -147,7 +147,7 @@ const carousel = ref(null);
 
   .category-card {
     min-width: 250px;
-    padding: 20px;
+    padding: 10px;
 
     &__name-background-container {
       width: 200px;

@@ -12,10 +12,13 @@ import CategoryCarousel from '~/components/home/CategoryCarousel.vue';
 </template>
 
 <style lang="scss">
+@import '@/assets/css/styles.scss';
 @import '@/assets/css/variables.scss';
 
 // Mobile
 .home-page {
+  @extend .page-width;
+
   display: flex;
   flex-direction: column;
   gap: 40px;
