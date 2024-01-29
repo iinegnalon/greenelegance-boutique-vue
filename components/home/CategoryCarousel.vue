@@ -24,11 +24,13 @@ const carousel = ref(null);
               alt="Category Image"
               class="category-card__image"
             ></v-img>
+
             <div class="category-card__name-background-container">
               <v-card-title class="category-card__name-background">
                 {{ category.name }}
               </v-card-title>
             </div>
+
             <div class="category-card__name-container">
               <v-card-title class="category-card__name">
                 {{ category.name }}

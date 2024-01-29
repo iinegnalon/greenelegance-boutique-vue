@@ -28,30 +28,33 @@
 
 // Mobile
 .home-page-hero {
-  display: none;
-
   &__content {
     position: relative;
     overflow: hidden;
-    height: 100vh;
     width: 100%;
-    background-color: #f0f0f0;
     border-radius: 8px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    z-index: 2;
+
+    background: url('/images/hero-ad.png') 40% 60%;
+    justify-content: center;
+    height: 70vh;
   }
 
   &__button {
-    width: 36%;
-    height: 60px !important;
+    width: 50%;
+    height: 40px !important;
   }
 
   &__left {
-    flex: 1;
-    z-index: 2;
-    padding-left: 8.5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    background: white;
+    padding: 16px 20px;
+    border-radius: 8px;
   }
 
   &__right {
@@ -60,6 +63,8 @@
     z-index: 2;
     height: 100%;
     width: 49%;
+
+    display: none;
   }
 
   &__image {
@@ -67,20 +72,21 @@
   }
 
   &__description {
-    font-size: 20px;
-    margin-bottom: 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
   }
 
   &__title {
     font-family: 'Trebuchet MS', sans-serif;
     font-weight: bold;
-    font-size: 40px;
-    margin-bottom: 10px;
+
+    font-size: 28px;
+    margin-bottom: 5px;
   }
 
   &__sale {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
   }
 
   &__animated-text {
@@ -96,6 +102,7 @@
     transform: translateY(-50%);
     z-index: 1;
     user-select: none;
+    display: none;
 
     @keyframes slideLeft {
       0% {
@@ -108,12 +115,80 @@
   }
 }
 
-@media screen and (min-width: $desktop-breakpoint) {
+@media screen and (min-width: $tablet-breakpoint) {
+  .home-page-hero {
+    &__button {
+      width: 50%;
+      height: 50px !important;
+    }
+
+    &__left {
+      padding: 20px 40px;
+    }
+
+    &__description {
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+
+    &__title {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+
+    &__sale {
+      font-size: 20px;
+      margin-bottom: 24px;
+    }
+  }
 }
 
 @media screen and (min-width: $desktop-breakpoint) {
   .home-page-hero {
     display: block;
+
+    &__content {
+      z-index: 2;
+      height: 100vh;
+      background: #f0f0f0;
+      justify-content: space-between;
+    }
+
+    &__button {
+      width: 38%;
+      height: 60px !important;
+    }
+
+    &__left {
+      z-index: 2;
+      flex: 1;
+      padding-left: 8.5%;
+      display: block;
+      background: transparent;
+    }
+
+    &__description {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    &__title {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    &__sale {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    &__right {
+      display: block;
+    }
+
+    &__animated-text {
+      display: block;
+    }
   }
 }
 </style>

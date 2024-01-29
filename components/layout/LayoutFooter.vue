@@ -1,22 +1,30 @@
 <script lang="ts" setup>
-import { isValidEmail } from '~/utils';
+import { isValidEmail, waitFor } from '~/utils';
 
 const emailInput = ref('example@mail.com');
-const subscriptionSnackbarSuccess = ref(false);
-const subscriptionSnackbarError = ref(false);
+const subscriptionSnackbar = ref({
+  show: false,
+  message: '',
+  timeout: 2000,
+  color: '',
+});
 const subscriptionLoading = ref(false);
 
 async function subscribe() {
   if (!isValidEmail(emailInput.value)) {
-    subscriptionSnackbarError.value = true;
+    subscriptionSnackbar.value.show = true;
+    subscriptionSnackbar.value.color = 'error';
+    subscriptionSnackbar.value.message = 'Invalid email';
     return;
   }
 
   subscriptionLoading.value = true;
 
   // Fake loading
-  await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
-  subscriptionSnackbarSuccess.value = true;
+  await waitFor();
+  subscriptionSnackbar.value.show = true;
+  subscriptionSnackbar.value.color = 'success';
+  subscriptionSnackbar.value.message = `Subscription successful! Email: ${emailInput.value}`;
 
   subscriptionLoading.value = false;
 }
@@ -81,18 +89,10 @@ async function subscribe() {
     </div>
 
     <v-snackbar
-      v-model="subscriptionSnackbarSuccess"
-      :timeout="2000"
-      color="success"
+      v-model="subscriptionSnackbar.show"
+      :color="subscriptionSnackbar.color"
     >
-      Subscription successful! Email: {{ emailInput }}
-    </v-snackbar>
-    <v-snackbar
-      v-model="subscriptionSnackbarError"
-      :timeout="2000"
-      color="error"
-    >
-      Invalid email
+      {{ subscriptionSnackbar.message }}
     </v-snackbar>
   </footer>
 </template>
@@ -111,6 +111,7 @@ async function subscribe() {
   padding-bottom: 20px;
   color: white;
   background: black;
+  margin-top: 20px;
 
   &__left,
   &__center,
@@ -154,10 +155,20 @@ async function subscribe() {
 }
 
 // Desktop
+@media screen and (min-width: $tablet-breakpoint) {
+  .footer {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 32px;
+  }
+}
+
+// Desktop
 @media screen and (min-width: $desktop-breakpoint) {
   .footer {
     flex-direction: row;
     justify-content: space-between;
+    margin-top: 40px;
 
     &__left,
     &__center,

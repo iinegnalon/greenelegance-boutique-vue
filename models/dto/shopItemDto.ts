@@ -5,6 +5,7 @@ import type { Size } from '~/models/enums/size';
 export interface ShopItemDto {
   id: string;
   name: string;
+  brand: string;
   description?: string;
   categories: Partial<CategoryDto>[];
   colors: Color[];
@@ -12,4 +13,6 @@ export interface ShopItemDto {
   price: number;
   discountedPrice?: number;
   stock: number;
+  image: string;
+  slug: string;
 }

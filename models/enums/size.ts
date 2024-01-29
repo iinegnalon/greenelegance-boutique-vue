@@ -11,4 +11,5 @@ export enum Size {
   XLS = 'XLS',
   XXL = '2XL',
   XXXL = '3XL',
+  None = 'None',
 }

@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 import HomeHero from '~/components/home/HomeHero.vue';
 import CategoryCarousel from '~/components/home/CategoryCarousel.vue';
+import OurBestseller from '~/components/home/OurBestseller.vue';
 </script>
 
 <template>
   <div class="home-page">
     <HomeHero />
     <CategoryCarousel />
-    <!--    <OurBestseller />-->
+    <OurBestseller />
   </div>
 </template>
 

@@ -96,6 +96,12 @@ a:active {
   }
 }
 
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 // Tablet
 @media screen and (min-width: $tablet-breakpoint) {
   body {
