@@ -31,7 +31,7 @@ function handleCart(value: boolean, shopItem: ShopItemDto) {}
 
 <template>
   <section class="our-bestseller">
-    <div class="our-bestseller__title">Our Bestseller</div>
+    <h2 class="our-bestseller__title">Our Bestseller</h2>
     <div class="our-bestseller__grid">
       <ShopItemCard
         v-for="item in shopItems"
@@ -92,7 +92,7 @@ function handleCart(value: boolean, shopItem: ShopItemDto) {}
     }
 
     &__grid {
-      grid-gap: 40px;
+      grid-gap: 20px;
       grid-template-columns: repeat(4, 1fr);
     }
   }

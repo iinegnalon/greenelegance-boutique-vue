@@ -6,7 +6,7 @@ const carousel = ref(null);
 
 <template>
   <section class="category-carousel">
-    <div class="category-carousel__title">Shop by Categories</div>
+    <h2 class="category-carousel__title">Shop by Categories</h2>
 
     <v-sheet class="mx-auto" max-width="1800">
       <v-slide-group v-model="carousel" show-arrows>

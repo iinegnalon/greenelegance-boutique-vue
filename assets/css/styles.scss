@@ -92,7 +92,7 @@ a:active {
   transition: 0.3s ease;
 
   &:hover {
-    transform: scale(1.05);
+    transform: translateY(-5px);
   }
 }
 

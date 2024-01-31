@@ -2,6 +2,7 @@
 import HomeHero from '~/components/home/HomeHero.vue';
 import CategoryCarousel from '~/components/home/CategoryCarousel.vue';
 import OurBestseller from '~/components/home/OurBestseller.vue';
+import MonthDeal from '~/components/home/MonthDeal.vue';
 </script>
 
 <template>
@@ -9,6 +10,7 @@ import OurBestseller from '~/components/home/OurBestseller.vue';
     <HomeHero />
     <CategoryCarousel />
     <OurBestseller />
+    <MonthDeal />
   </div>
 </template>
 

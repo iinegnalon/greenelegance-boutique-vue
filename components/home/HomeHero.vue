@@ -12,9 +12,10 @@
         </v-btn>
       </div>
       <div class="home-page-hero__right">
-        <img
+        <v-img
           alt="New Collection"
           class="home-page-hero__image"
+          cover
           src="/images/hero-ad.png"
         />
       </div>
@@ -24,6 +25,7 @@
 </template>
 
 <style lang="scss" scoped>
+@use 'sass:math';
 @import '@/assets/css/variables.scss';
 
 // Mobile
@@ -35,14 +37,13 @@
     border-radius: 8px;
     display: flex;
     align-items: center;
-
     background: url('/images/hero-ad.png') 40% 60%;
     justify-content: center;
     height: 70vh;
   }
 
   &__button {
-    width: 50%;
+    width: fit-content;
     height: 40px !important;
   }
 
@@ -51,7 +52,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: fit-content;
+    width: 75%;
     background: white;
     padding: 16px 20px;
     border-radius: 8px;
@@ -59,11 +60,9 @@
 
   &__right {
     position: relative;
-    flex: 1;
     z-index: 2;
     height: 100%;
-    width: 49%;
-
+    width: 50%;
     display: none;
   }
 
@@ -79,7 +78,6 @@
   &__title {
     font-family: 'Trebuchet MS', sans-serif;
     font-weight: bold;
-
     font-size: 28px;
     margin-bottom: 5px;
   }
@@ -118,7 +116,6 @@
 @media screen and (min-width: $tablet-breakpoint) {
   .home-page-hero {
     &__button {
-      width: 50%;
       height: 50px !important;
     }
 
@@ -151,18 +148,16 @@
       z-index: 2;
       height: 100vh;
       background: #f0f0f0;
-      justify-content: space-between;
     }
 
     &__button {
-      width: 38%;
       height: 60px !important;
     }
 
     &__left {
       z-index: 2;
-      flex: 1;
-      padding-left: 8.5%;
+      width: 50%;
+      padding-left: math.div(1, 11) * 100%;
       display: block;
       background: transparent;
     }
