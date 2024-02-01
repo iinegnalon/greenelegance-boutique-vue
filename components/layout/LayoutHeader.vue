@@ -9,7 +9,7 @@ function toggleMenu() {
 <template>
   <header class="header">
     <div class="header__icon-container" @click="toggleMenu">
-      <img alt="Burger Icon" src="~assets/icons/menu-burger.png" />
+      <v-img alt="Burger Icon" src="~assets/icons/menu-burger.png" />
     </div>
 
     <div
@@ -31,7 +31,7 @@ function toggleMenu() {
     </div>
 
     <NuxtLink class="header__logo" to="/">
-      <img alt="Logo" class="logo" src="~/assets/logo/logo.svg" />
+      <v-img alt="Logo" class="logo" src="~/assets/logo/logo.svg" />
     </NuxtLink>
 
     <nav class="header__navigation">
@@ -41,12 +41,8 @@ function toggleMenu() {
     </nav>
 
     <div class="header__cart-login">
-      <NuxtLink to="/cart">
-        <img
-          alt="Cart Icon"
-          class="cart-icon"
-          src="~/assets/icons/shopping-bag.png"
-        />
+      <NuxtLink class="cart-link" to="/cart">
+        <v-img alt="Cart Icon" src="~/assets/icons/shopping-bag.png" />
       </NuxtLink>
       <div class="header__button-container">
         <v-btn class="header__button button_primary" href="/login">Login</v-btn>
@@ -69,10 +65,8 @@ function toggleMenu() {
   padding-bottom: 12px;
 
   &__icon-container {
-    img {
-      width: 32px;
-      height: 32px;
-    }
+    width: 32px;
+    height: 32px;
   }
 
   &__overlay {
@@ -121,10 +115,8 @@ function toggleMenu() {
   }
 
   &__logo {
-    img {
-      width: 80px;
-      height: auto;
-    }
+    width: 80px;
+    height: auto;
   }
 
   &__navigation {
@@ -137,11 +129,6 @@ function toggleMenu() {
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-
-    img {
-      width: 32px;
-      height: 32px;
-    }
   }
 
   &__link {
@@ -154,6 +141,11 @@ function toggleMenu() {
 
   &__button {
   }
+}
+
+.cart-link {
+  width: 32px;
+  height: 32px;
 }
 
 @media screen and (min-width: $tablet-breakpoint) {
@@ -183,10 +175,8 @@ function toggleMenu() {
     }
 
     &__logo {
-      img {
-        width: 120px;
-        height: auto;
-      }
+      width: 120px;
+      height: auto;
     }
 
     &__icon-container {
@@ -201,6 +191,14 @@ function toggleMenu() {
 
     &__link {
       @include underline-hover;
+    }
+  }
+
+  .cart-link {
+    transition: 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
     }
   }
 }

@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-  <section class="home-page-hero">
+  <section class="home-page-hero page-width">
     <div class="home-page-hero__content">
       <div class="home-page-hero__left">
         <p class="home-page-hero__description">Classic Exclusive</p>

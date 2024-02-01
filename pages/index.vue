@@ -3,6 +3,7 @@ import HomeHero from '~/components/home/HomeHero.vue';
 import CategoryCarousel from '~/components/home/CategoryCarousel.vue';
 import OurBestseller from '~/components/home/OurBestseller.vue';
 import MonthDeal from '~/components/home/MonthDeal.vue';
+import ReviewCarousel from '~/components/home/ReviewCarousel.vue';
 </script>
 
 <template>
@@ -11,6 +12,7 @@ import MonthDeal from '~/components/home/MonthDeal.vue';
     <CategoryCarousel />
     <OurBestseller />
     <MonthDeal />
+    <ReviewCarousel />
   </div>
 </template>
 
@@ -20,8 +22,6 @@ import MonthDeal from '~/components/home/MonthDeal.vue';
 
 // Mobile
 .home-page {
-  @extend .page-width;
-
   display: flex;
   flex-direction: column;
   gap: 40px;

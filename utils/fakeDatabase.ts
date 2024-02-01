@@ -2,10 +2,12 @@ import type { ShopItemDto } from '~/models/dto/shopItemDto';
 import { Color } from '~/models/enums/color';
 import { Size } from '~/models/enums/size';
 import type { CategoryDto } from '~/models/dto/categoryDto';
+import type { Review } from '~/models/review';
 
 interface FakeDatabase {
   shopItems: ShopItemDto[];
   categories: CategoryDto[];
+  reviews: Review[];
 }
 
 export const fakeDatabase: FakeDatabase = {
@@ -216,6 +218,56 @@ export const fakeDatabase: FakeDatabase = {
       name: 'Handbags',
       slug: 'handbags',
       image: '/images/categories/handbags.png',
+    },
+  ],
+  reviews: [
+    {
+      id: '1',
+      rating: 5,
+      text: "Absolutely love the variety and quality of clothes at this shop! Found the perfect dress for my friend's wedding. Will definitely be coming back for more.",
+      name: 'Emily Johnson',
+      position: 'Fashion Enthusiast',
+      image: '/images/avatars/avatar1.png',
+    },
+    {
+      id: '2',
+      rating: 5,
+      text: 'Great experience shopping here! The staff was helpful, and I found some trendy pieces that fit perfectly into my wardrobe.',
+      name: 'Alex Chen',
+      position: 'Style Blogger',
+      image: '/images/avatars/avatar2.png',
+    },
+    {
+      id: '3',
+      rating: 4.8,
+      text: 'Amazing store! I found a stunning outfit for a special occasion. The staff provided excellent assistance, making my shopping experience memorable.',
+      name: 'Michael Thompson',
+      position: 'Fashion Influencer',
+      image: '/images/avatars/avatar2.png',
+    },
+    {
+      id: '4',
+      rating: 5,
+      text: 'This shop never disappoints! I always find unique pieces that make me stand out. The quality is top-notch, and the prices are fair. Highly recommend!',
+      name: 'Emma Roberts',
+      position: 'Fashion Enthusiast',
+      image: '/images/avatars/avatar1.png',
+    },
+    {
+      id: '5',
+      rating: 4.5,
+      text: 'Good selection of clothes, but the checkout process was a bit slow. Staff were friendly, though, and the overall experience was pleasant.',
+      name: 'Daniel Brown',
+      position: 'Fashion Blogger',
+      image: '/images/avatars/avatar2.png',
+    },
+    {
+      id: '6',
+      rating: 4.7,
+      text: 'Impressive collection of clothes! The shop offers a wide range of styles suitable for various occasions. Prices are reasonable for the quality you get.',
+      name: 'Sophia Lee',
+      position: 'Fashion Designer',
+      image: '/images/avatars/avatar1.png',
     },
   ],
 };

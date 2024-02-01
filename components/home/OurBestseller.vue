@@ -30,7 +30,7 @@ function handleCart(value: boolean, shopItem: ShopItemDto) {}
 </script>
 
 <template>
-  <section class="our-bestseller">
+  <section class="our-bestseller page-width">
     <h2 class="our-bestseller__title">Our Bestseller</h2>
     <div class="our-bestseller__grid">
       <ShopItemCard

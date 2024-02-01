@@ -5,7 +5,7 @@ const carousel = ref(null);
 </script>
 
 <template>
-  <section class="category-carousel">
+  <section class="category-carousel page-width">
     <h2 class="category-carousel__title">Shop by Categories</h2>
 
     <v-sheet class="mx-auto" max-width="1800">

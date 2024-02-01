@@ -13,7 +13,7 @@ const countdownDate = new Date(
 </script>
 
 <template>
-  <section class="month-deal">
+  <section class="month-deal page-width">
     <div class="month-deal__content">
       <div class="month-deal__left">
         <h2 class="month-deal__title">Deal of the Month</h2>

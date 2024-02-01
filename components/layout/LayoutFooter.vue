@@ -34,7 +34,7 @@ async function subscribe() {
   <footer class="footer">
     <div class="footer__left">
       <NuxtLink class="footer__logo" to="/">
-        <img alt="Logo" class="logo" src="~/assets/logo/logo-light.svg" />
+        <v-img alt="Logo" class="logo" src="~/assets/logo/logo-light.svg" />
       </NuxtLink>
       <div class="footer__contact">
         <NuxtLink class="footer__phone" to="tel:+123 456 789">
@@ -123,10 +123,8 @@ async function subscribe() {
     margin-bottom: 20px;
   }
 
-  &__left {
-    img {
-      width: 80px;
-    }
+  &__logo {
+    width: 80px;
   }
 
   &__contact {
@@ -154,11 +152,9 @@ async function subscribe() {
   }
 }
 
-// Desktop
+// Tablet
 @media screen and (min-width: $tablet-breakpoint) {
   .footer {
-    flex-direction: row;
-    justify-content: space-between;
     margin-top: 32px;
   }
 }
