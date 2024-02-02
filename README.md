@@ -1,75 +1,23 @@
-# Nuxt 3 Minimal Starter
+# Онлайн магазин "GreenElegance Boutique"
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Этот проект представляет собой онлайн магазин, разработанный с использованием Vue.js. Он включает в себя лендинг, каталог товаров, страницу товара, корзину и чекаут с оплатой через Stripe.
 
-## Setup
+## Технологии
 
-Make sure to install the dependencies:
+- Разработан с использованием Vue 3 и Nuxt 3.
+- Используется TypeScript для статической типизации и улучшения структуры кода.
+- Интегрированы инструменты Prettier и ESLint для обеспечения чистоты кода.
+- Используется Vite для быстрой сборки и локальной разработки.
+- Применен Composition API для управления состоянием приложения.
+- Для создания UI использовалась библиотека компонентов Vuetify.
+- Используется SCSS для удобной и эффективной стилизации компонентов.
+- Для оплаты товаров используется Stripe.
+- Верстка выполнена согласно макету из Figma, с применением БЭМ, адаптивной сетки и принципа Mobile First.
 
-```bash
-# npm
-npm install
+## Запуск проекта
 
-# pnpm
-pnpm install
+Чтобы запустить проект локально, выполните следующие шаги:
 
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+1. Клонируйте репозиторий.
+2. Установите пакеты с помощью команды `npm install`.
+3. Запустите проект с помощью команды `npm run dev`.
