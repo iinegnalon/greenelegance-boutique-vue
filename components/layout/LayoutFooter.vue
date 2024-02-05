@@ -14,7 +14,7 @@ async function subscribe() {
   if (!isValidEmail(emailInput.value)) {
     subscriptionSnackbar.value.show = true;
     subscriptionSnackbar.value.color = 'error';
-    subscriptionSnackbar.value.message = 'Invalid email';
+    subscriptionSnackbar.value.message = 'Invalid email format';
     return;
   }
 

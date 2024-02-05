@@ -7,14 +7,12 @@ const emit = defineEmits(['favorite', 'cart']);
 const favorite = ref(false);
 const inCart = ref(false);
 
-function addToFavorites(e: Event) {
-  e.preventDefault();
+function addToFavorites() {
   favorite.value = !favorite.value;
   emit('favorite', favorite.value, props.shopItem);
 }
 
-function addToCart(e: Event) {
-  e.preventDefault();
+function addToCart() {
   inCart.value = !inCart.value;
   emit('cart', inCart.value, props.shopItem);
 }
@@ -33,13 +31,20 @@ function addToCart(e: Event) {
         :ripple="false"
         class="favorite-btn"
         @click="addToFavorites"
+        @click.prevent
       >
         <v-icon :color="favorite ? '#FFD700' : 'black'">{{
           favorite ? 'mdi-star' : 'mdi-star-outline'
         }}</v-icon>
       </v-btn>
 
-      <v-btn :ripple="false" class="cart-btn" color="white" @click="addToCart">
+      <v-btn
+        :ripple="false"
+        class="cart-btn"
+        color="white"
+        @click="addToCart"
+        @click.prevent
+      >
         <v-icon :color="inCart ? 'success' : 'black'"
           >{{ inCart ? 'mdi-check' : 'mdi-cart-plus' }}
         </v-icon>

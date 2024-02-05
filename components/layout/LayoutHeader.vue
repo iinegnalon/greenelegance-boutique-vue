@@ -57,7 +57,7 @@ function checkScrollDirection() {
         <NuxtLink class="header__link" to="/shop">Shop</NuxtLink>
         <NuxtLink class="header__link" to="/contact"> Contact Us </NuxtLink>
         <v-divider color="white" />
-        <NuxtLink class="header__link" to="/login"> Login </NuxtLink>
+        <NuxtLink class="header__link" to="/login"> Login / Sign Up </NuxtLink>
       </div>
     </div>
 
@@ -76,7 +76,9 @@ function checkScrollDirection() {
         <v-img alt="Cart Icon" src="~/assets/icons/shopping-bag.png" />
       </NuxtLink>
       <div class="header__button-container">
-        <v-btn class="header__button button_primary" href="/login">Login</v-btn>
+        <v-btn class="header__button button_primary" href="/login">
+          Login / Sign Up
+        </v-btn>
       </div>
     </div>
   </header>
