@@ -1,24 +1,55 @@
 <script lang="ts" setup>
-const isMenuOpen = ref(false);
+const menuOpen = ref(false);
+const lastScrollTop = ref(0);
+const scrolling = ref(false);
+const headerHidden = ref(false);
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
 
 function toggleMenu() {
-  isMenuOpen.value = !isMenuOpen.value;
+  menuOpen.value = !menuOpen.value;
+}
+
+// Handle scroll events without multiple handlers
+function handleScroll() {
+  if (scrolling.value) {
+    return;
+  }
+
+  requestAnimationFrame(() => {
+    checkScrollDirection();
+    scrolling.value = false;
+  });
+  scrolling.value = true;
+}
+
+// Determine scroll direction
+function checkScrollDirection() {
+  const scrollTop = document.documentElement.scrollTop;
+  headerHidden.value = scrollTop > lastScrollTop.value;
+  lastScrollTop.value = scrollTop <= 0 ? 0 : scrollTop;
 }
 </script>
 
 <template>
-  <header class="header">
+  <header :class="{ header_hidden: headerHidden }" class="header">
     <div class="header__icon-container" @click="toggleMenu">
       <v-img alt="Burger Icon" src="~assets/icons/menu-burger.png" />
     </div>
 
     <div
-      :class="{ header__overlay_open: isMenuOpen }"
+      :class="{ header__overlay_open: menuOpen }"
       class="header__overlay"
       @click="toggleMenu"
     ></div>
     <div
-      :class="{ 'header__menu-container_open': isMenuOpen }"
+      :class="{ 'header__menu-container_open': menuOpen }"
       class="header__menu-container"
     >
       <div class="header__menu" @click="toggleMenu">
@@ -63,6 +94,12 @@ function toggleMenu() {
   align-items: center;
   padding-top: 12px;
   padding-bottom: 12px;
+  background-color: #fff;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: top 0.3s;
 
   &__icon-container {
     width: 32px;
@@ -159,6 +196,10 @@ function toggleMenu() {
   .header {
     padding-top: 20px;
     padding-bottom: 20px;
+
+    &_hidden {
+      top: -160px;
+    }
 
     &__cart-login {
       width: 23%;
