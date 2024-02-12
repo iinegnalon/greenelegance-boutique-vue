@@ -16,7 +16,7 @@ import ReviewCarousel from '~/components/home/ReviewCarousel.vue';
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/css/styles.scss';
 @import '@/assets/css/variables.scss';
 

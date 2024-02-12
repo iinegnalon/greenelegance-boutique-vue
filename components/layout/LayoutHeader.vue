@@ -138,7 +138,9 @@ async function logout() {
 
         <v-btn
           :loading="logoutLoading"
-          class="header__button button_primary"
+          class="header__button"
+          prepend-icon="mdi-logout"
+          variant="outlined"
           @click="logout"
         >
           Logout
