@@ -63,7 +63,10 @@ async function logout() {
       @click="toggleMenu"
     ></div>
     <div
-      :class="{ 'header__menu-container_open': menuOpen }"
+      :class="{
+        'header__menu-container_open': menuOpen,
+        'header__menu-container_authed': menuOpen && userStore.user,
+      }"
       class="header__menu-container"
     >
       <div class="header__menu" @click="toggleMenu">
@@ -71,7 +74,27 @@ async function logout() {
         <NuxtLink class="header__link" to="/shop">Shop</NuxtLink>
         <NuxtLink class="header__link" to="/contact"> Contact Us </NuxtLink>
         <v-divider color="white" />
-        <NuxtLink class="header__link" to="/login"> Login / Sign Up </NuxtLink>
+        <NuxtLink v-if="!userStore.user" class="header__link" to="/login">
+          Login / Sign Up
+        </NuxtLink>
+        <div v-else class="header__menu-user">
+          <span
+            :title="userStore.user!.email"
+            class="header__menu-welcome-message ellipsis"
+          >
+            Welcome, {{ userStore.user!.firstName }}!
+          </span>
+          <NuxtLink class="header__link" to="/profile"> Profile </NuxtLink>
+          <span v-if="!logoutLoading" class="header__link" @click.stop="logout">
+            Logout
+          </span>
+          <v-progress-circular
+            v-else
+            color="white"
+            indeterminate
+            size="28.8"
+          ></v-progress-circular>
+        </div>
       </div>
     </div>
 
@@ -177,6 +200,10 @@ async function logout() {
     &_open {
       height: 200px;
     }
+
+    &_authed {
+      height: 264px;
+    }
   }
 
   &__menu {
@@ -185,12 +212,6 @@ async function logout() {
     gap: 10px;
     padding: 20px;
     z-index: 1;
-
-    a {
-      color: white;
-      text-decoration: none;
-      font-size: 18px;
-    }
   }
 
   &__logo {
@@ -210,8 +231,21 @@ async function logout() {
     gap: 24px;
   }
 
+  &__menu-user {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__menu-welcome-message {
+    color: white;
+    font-size: 12px;
+  }
+
   &__link {
-    font-size: 24px;
+    font-size: 18px;
+    cursor: pointer;
+    color: white !important;
   }
 
   &__button-container {
