@@ -81,6 +81,7 @@ async function logout() {
           <span
             :title="userStore.user!.email"
             class="header__menu-welcome-message ellipsis"
+            @click.stop
           >
             Welcome, {{ userStore.user!.firstName }}!
           </span>
@@ -212,6 +213,7 @@ async function logout() {
     gap: 10px;
     padding: 20px;
     z-index: 1;
+    color: white;
   }
 
   &__logo {
@@ -238,14 +240,12 @@ async function logout() {
   }
 
   &__menu-welcome-message {
-    color: white;
     font-size: 12px;
   }
 
   &__link {
     font-size: 18px;
     cursor: pointer;
-    color: white !important;
   }
 
   &__button-container {
@@ -329,6 +329,7 @@ async function logout() {
 
     &__link {
       @include underline-hover;
+      font-size: 24px;
     }
 
     &__user-container {
