@@ -1,3 +1,20 @@
+<script lang="ts" setup>
+import { useUserStore } from '~/store/userStore';
+
+const userStore = useUserStore();
+
+onMounted(() => {
+  checkUser();
+});
+
+function checkUser() {
+  const userFromLocalStorage = localStorage.getItem('user');
+  if (userFromLocalStorage) {
+    userStore.setUser(JSON.parse(userFromLocalStorage));
+  }
+}
+</script>
+
 <template>
   <div>
     <Head>
@@ -14,4 +31,3 @@
     </Body>
   </div>
 </template>
-<script lang="ts" setup></script>
