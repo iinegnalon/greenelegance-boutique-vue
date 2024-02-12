@@ -1,8 +1,14 @@
 <script lang="ts" setup>
+import { useUserStore } from '~/store/userStore';
+
+const router = useRouter();
+const userStore = useUserStore();
+
 const menuOpen = ref(false);
 const lastScrollTop = ref(0);
 const scrolling = ref(false);
 const headerHidden = ref(false);
+const logoutLoading = ref(false);
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
@@ -35,12 +41,20 @@ function checkScrollDirection() {
   headerHidden.value = scrollTop > lastScrollTop.value;
   lastScrollTop.value = scrollTop <= 0 ? 0 : scrollTop;
 }
+
+async function logout() {
+  logoutLoading.value = true;
+  await userStore.logout();
+  logoutLoading.value = false;
+
+  router.go(0);
+}
 </script>
 
 <template>
   <header :class="{ header_hidden: headerHidden }" class="header">
     <div class="header__icon-container" @click="toggleMenu">
-      <v-img alt="Burger Icon" src="~assets/icons/menu-burger.png" />
+      <v-icon size="36">mdi-menu</v-icon>
     </div>
 
     <div
@@ -71,13 +85,39 @@ function checkScrollDirection() {
       <NuxtLink class="header__link" to="/contact">Contact Us</NuxtLink>
     </nav>
 
+    <div class="flex1"></div>
+
     <div class="header__cart-login">
+      <span
+        v-if="userStore.user"
+        :title="userStore.user!.email"
+        class="header__welcome-message ellipsis"
+      >
+        Welcome, {{ userStore.user!.firstName }}!
+      </span>
+
       <NuxtLink class="cart-link" to="/cart">
-        <v-img alt="Cart Icon" src="~/assets/icons/shopping-bag.png" />
+        <v-icon size="32">mdi-cart-outline</v-icon>
+        <div v-if="false" class="cart-link__count">{{ 10 }}</div>
       </NuxtLink>
-      <div class="header__button-container">
+
+      <div v-if="!userStore.user" class="header__button-container">
         <v-btn class="header__button button_primary" href="/login">
           Login / Sign Up
+        </v-btn>
+      </div>
+
+      <div v-else class="header__user-container">
+        <NuxtLink class="cart-link" to="/profile">
+          <v-icon size="32">mdi-account-outline</v-icon>
+        </NuxtLink>
+
+        <v-btn
+          :loading="logoutLoading"
+          class="header__button button_primary"
+          @click="logout"
+        >
+          Logout
         </v-btn>
       </div>
     </div>
@@ -178,13 +218,39 @@ function checkScrollDirection() {
     display: none;
   }
 
-  &__button {
+  &__user-container {
+    display: none;
+  }
+
+  &__welcome-message {
+    display: none;
   }
 }
 
 .cart-link {
+  position: relative;
   width: 32px;
   height: 32px;
+
+  &__count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    padding: 4px;
+    font-size: 12px;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.flex1 {
+  display: none;
 }
 
 @media screen and (min-width: $tablet-breakpoint) {
@@ -198,23 +264,18 @@ function checkScrollDirection() {
   .header {
     padding-top: 20px;
     padding-bottom: 20px;
+    justify-content: flex-start;
 
     &_hidden {
       top: -160px;
     }
 
-    &__cart-login {
-      width: 23%;
-    }
-
     &__button-container {
-      display: flex;
-      width: 64%;
+      display: block;
     }
 
     &__button {
-      width: 100%;
-      height: 60px;
+      height: 60px !important;
     }
 
     &__logo {
@@ -229,11 +290,17 @@ function checkScrollDirection() {
     &__navigation {
       display: flex;
       gap: 32px;
-      margin-left: 10%;
+      margin-left: calc(50% - 320px);
     }
 
     &__link {
       @include underline-hover;
+    }
+
+    &__user-container {
+      display: flex;
+      align-items: center;
+      gap: 24px;
     }
   }
 
@@ -242,6 +309,22 @@ function checkScrollDirection() {
 
     &:hover {
       transform: translateY(-5px);
+    }
+  }
+
+  .flex1 {
+    display: block;
+    flex: 1;
+  }
+}
+
+@media screen and (min-width: 1150px) {
+  .header {
+    &__welcome-message {
+      display: block;
+      font-size: 16px;
+      color: $secondary-color;
+      max-width: 160px;
     }
   }
 }

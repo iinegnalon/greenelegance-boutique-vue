@@ -1,11 +1,14 @@
 <script lang="ts" setup>
 import { waitFor } from '~/utils';
+import { useUserStore } from '~/store/userStore';
+import type { UserDto } from '~/models/dto/userDto';
 
 definePageMeta({
   layout: false,
 });
 
 const router = useRouter();
+const userStore = useUserStore();
 
 const notificationSnackbar = ref({
   show: false,
@@ -31,6 +34,14 @@ async function submitForm() {
     notificationSnackbar.value.message = 'Incorrect email or password';
     return;
   }
+
+  const user: UserDto = {
+    id: '1',
+    firstName: 'John',
+    lastName: 'Smith',
+    email: loginData.value.email,
+  };
+  userStore.setUser(user);
 
   await router.push('/');
 }

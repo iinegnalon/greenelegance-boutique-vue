@@ -1,11 +1,14 @@
 <script lang="ts" setup>
 import { isValidEmail, waitFor } from '~/utils';
+import type { UserDto } from '~/models/dto/userDto';
+import { useUserStore } from '~/store/userStore';
 
 definePageMeta({
   layout: false,
 });
 
 const router = useRouter();
+const userStore = useUserStore();
 
 const notificationSnackbar = ref({
   show: false,
@@ -45,6 +48,15 @@ async function submitForm() {
   notificationSnackbar.value.message = 'Account was created successfully!';
 
   await waitFor();
+
+  const user: UserDto = {
+    id: '1',
+    firstName: signupData.value.firstName,
+    lastName: signupData.value.lastName,
+    email: signupData.value.email,
+  };
+  userStore.setUser(user);
+
   await router.push('/');
 }
 </script>
