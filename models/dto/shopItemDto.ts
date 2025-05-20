@@ -15,4 +15,6 @@ export interface ShopItemDto {
   stock: number;
   image: string;
   slug: string;
+  dateCreated: number;
+  dateUpdated: number;
 }

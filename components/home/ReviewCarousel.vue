@@ -9,7 +9,7 @@ const carousel = ref(null);
     <h2 class="review-carousel__title">What Our Customers Say</h2>
 
     <v-sheet class="sheet mx-auto" max-width="1800">
-      <v-slide-group v-model="carousel" mobile-breakpoint="1" show-arrows>
+      <v-slide-group v-model="carousel" show-arrows>
         <v-slide-group-item
           v-for="review in fakeDatabase.reviews"
           :key="review.id"

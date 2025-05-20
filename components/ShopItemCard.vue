@@ -33,9 +33,9 @@ function addToCart() {
         @click="addToFavorites"
         @click.prevent
       >
-        <v-icon :color="favorite ? '#FFD700' : 'black'">{{
-          favorite ? 'mdi-star' : 'mdi-star-outline'
-        }}</v-icon>
+        <v-icon :color="favorite ? '#FFD700' : 'black'">
+          {{ favorite ? 'mdi-star' : 'mdi-star-outline' }}
+        </v-icon>
       </v-btn>
 
       <v-btn
@@ -45,8 +45,8 @@ function addToCart() {
         @click="addToCart"
         @click.prevent
       >
-        <v-icon :color="inCart ? 'success' : 'black'"
-          >{{ inCart ? 'mdi-check' : 'mdi-cart-plus' }}
+        <v-icon :color="inCart ? 'success' : 'black'">
+          {{ inCart ? 'mdi-check' : 'mdi-cart-plus' }}
         </v-icon>
       </v-btn>
     </v-img>
@@ -65,8 +65,9 @@ function addToCart() {
         <span
           v-if="shopItem.discountedPrice"
           class="shop-item-card__crossed-price"
-          >${{ shopItem.price / 100 }}</span
         >
+          ${{ shopItem.price / 100 }}
+        </span>
       </div>
     </div>
   </v-card>

@@ -6,14 +6,14 @@ import type { ShopItemDto } from '~/models/dto/shopItemDto';
 import ShopItemCard from '~/components/ShopItemCard.vue';
 
 const sortOptions = ref([
-  'Date: Newest',
-  'Date: Oldest',
-  'Price: High to Low',
-  'Price: Low to High',
-  'Name: A - Z',
-  'Name: Z - A',
+  { title: 'Date: Newest', value: 'date-desc' },
+  { title: 'Date: Oldest', value: 'date-asc' },
+  { title: 'Price: High to Low', value: 'price-desc' },
+  { title: 'Price: Low to High', value: 'price-asc' },
+  { title: 'Name: A - Z', value: 'name-asc' },
+  { title: 'Name: Z - A', value: 'name-desc' },
 ]);
-const sortBy = ref(sortOptions.value[0]);
+const sortBy = ref(sortOptions.value[0].value);
 const currentPage = ref(1);
 const filteredItems: Ref<ShopItemDto[]> = ref([]);
 const notificationSnackbar = ref({
@@ -54,7 +54,36 @@ async function getShopItems() {
   pageLoading.value = true;
   await waitFor();
 
-  filteredItems.value = [...filteredItems.value, ...fakeDatabase.shopItems];
+  const newItems = [...fakeDatabase.shopItems];
+
+  switch (sortBy.value) {
+    case 'date-desc':
+      newItems.sort((a, b) => b.dateCreated - a.dateCreated);
+      break;
+    case 'date-asc':
+      newItems.sort((a, b) => a.dateCreated - b.dateCreated);
+      break;
+    case 'price-desc':
+      newItems.sort(
+        (a, b) =>
+          (b.discountedPrice ?? b.price) - (a.discountedPrice ?? a.price),
+      );
+      break;
+    case 'price-asc':
+      newItems.sort(
+        (a, b) =>
+          (a.discountedPrice ?? a.price) - (b.discountedPrice ?? b.price),
+      );
+      break;
+    case 'name-asc':
+      newItems.sort((a, b) => a.name.localeCompare(b.name));
+      break;
+    case 'name-desc':
+      newItems.sort((a, b) => b.name.localeCompare(a.name));
+      break;
+  }
+
+  filteredItems.value = [...filteredItems.value, ...newItems];
 
   itemsLoading.value = false;
   pageLoading.value = false;
@@ -75,7 +104,14 @@ function handleFavorite(value: boolean, shopItem: ShopItemDto) {
   showNotification(`Removed "${shopItem.name}" from Favorites`);
 }
 
-function handleCart(value: boolean, shopItem: ShopItemDto) {}
+function handleCart(value: boolean, shopItem: ShopItemDto) {
+  if (value) {
+    showNotification(`Added "${shopItem.name}" to Cart`);
+    return;
+  }
+
+  showNotification(`Removed "${shopItem.name}" from Cart`);
+}
 
 function handleSortByUpdate() {
   currentPage.value = 1;

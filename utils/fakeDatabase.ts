@@ -25,6 +25,8 @@ export const fakeDatabase: FakeDatabase = {
       stock: 50,
       image: '/images/categories/clothing.png',
       slug: 'classic-t-shirt',
+      dateCreated: 1747748610172,
+      dateUpdated: 1747748610172,
     },
     {
       id: '2',
@@ -39,6 +41,8 @@ export const fakeDatabase: FakeDatabase = {
       stock: 30,
       image: '/images/categories/clothing.png',
       slug: 'sporty-sneakers',
+      dateCreated: 1747748510172,
+      dateUpdated: 1747748710172,
     },
     {
       id: '3',
@@ -52,6 +56,8 @@ export const fakeDatabase: FakeDatabase = {
       stock: 20,
       image: '/images/categories/clothing.png',
       slug: 'elegant-watch',
+      dateCreated: 1747747610172,
+      dateUpdated: 1747747710172,
     },
     {
       id: '4',
@@ -65,6 +71,8 @@ export const fakeDatabase: FakeDatabase = {
       stock: 25,
       image: '/images/categories/clothing.png',
       slug: 'casual-jeans',
+      dateCreated: 1747738610172,
+      dateUpdated: 1747739610172,
     },
     {
       id: '5',
@@ -79,6 +87,8 @@ export const fakeDatabase: FakeDatabase = {
       stock: 40,
       image: '/images/categories/clothing.png',
       slug: 'running-shoes',
+      dateCreated: 1747648610172,
+      dateUpdated: 1747698610172,
     },
     {
       id: '6',
@@ -92,6 +102,8 @@ export const fakeDatabase: FakeDatabase = {
       stock: 15,
       image: '/images/categories/clothing.png',
       slug: 'leather-handbag',
+      dateCreated: 1746748610172,
+      dateUpdated: 1746948610172,
     },
     {
       id: '7',
@@ -105,6 +117,8 @@ export const fakeDatabase: FakeDatabase = {
       stock: 30,
       image: '/images/categories/clothing.png',
       slug: 'classic-t-shirt-2',
+      dateCreated: 1737748610172,
+      dateUpdated: 1739748610172,
     },
     {
       id: '8',
@@ -120,6 +134,8 @@ export const fakeDatabase: FakeDatabase = {
       stock: 10,
       image: '/images/categories/clothing.png',
       slug: 'sporty-sneakers-2',
+      dateCreated: 1727748610172,
+      dateUpdated: 1727748610172,
     },
     {
       id: '9',
@@ -133,6 +149,8 @@ export const fakeDatabase: FakeDatabase = {
       stock: 0,
       image: '/images/categories/clothing.png',
       slug: 'elegant-watch-2',
+      dateCreated: 1711748610172,
+      dateUpdated: 1712748610172,
     },
     {
       id: '10',
@@ -147,6 +165,8 @@ export const fakeDatabase: FakeDatabase = {
       stock: 5,
       image: '/images/categories/clothing.png',
       slug: 'casual-jeans-2',
+      dateCreated: 1707748610172,
+      dateUpdated: 1707748610172,
     },
     {
       id: '11',
@@ -160,6 +180,8 @@ export const fakeDatabase: FakeDatabase = {
       stock: 0,
       image: '/images/categories/clothing.png',
       slug: 'running-shoes-2',
+      dateCreated: 1735748610172,
+      dateUpdated: 1738748610172,
     },
     {
       id: '12',
@@ -174,6 +196,8 @@ export const fakeDatabase: FakeDatabase = {
       stock: 15,
       image: '/images/categories/clothing.png',
       slug: 'leather-handbag-2',
+      dateCreated: 1730748610172,
+      dateUpdated: 1731748610172,
     },
   ],
   categories: [

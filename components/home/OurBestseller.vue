@@ -26,7 +26,14 @@ function handleFavorite(value: boolean, shopItem: ShopItemDto) {
   showNotification(`Removed "${shopItem.name}" from Favorites`);
 }
 
-function handleCart(value: boolean, shopItem: ShopItemDto) {}
+function handleCart(value: boolean, shopItem: ShopItemDto) {
+  if (value) {
+    showNotification(`Added "${shopItem.name}" to Cart`);
+    return;
+  }
+
+  showNotification(`Removed "${shopItem.name}" from Cart`);
+}
 </script>
 
 <template>
