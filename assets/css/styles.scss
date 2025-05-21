@@ -1,4 +1,5 @@
 @import 'variables';
+@import 'sections/_shop.scss';
 
 @mixin underline-hover($color: $secondary-color) {
   position: relative;

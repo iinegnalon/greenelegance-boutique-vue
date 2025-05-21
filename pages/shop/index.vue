@@ -4,16 +4,11 @@ import ShopFilters from '~/components/shop/ShopFilters.vue';
 import { waitFor } from '~/utils';
 import type { ShopItemDto } from '~/models/dto/shopItemDto';
 import ShopItemCard from '~/components/ShopItemCard.vue';
+import { useShopStore } from '~/store/shopStore';
 
-const sortOptions = ref([
-  { title: 'Date: Newest', value: 'date-desc' },
-  { title: 'Date: Oldest', value: 'date-asc' },
-  { title: 'Price: High to Low', value: 'price-desc' },
-  { title: 'Price: Low to High', value: 'price-asc' },
-  { title: 'Name: A - Z', value: 'name-asc' },
-  { title: 'Name: Z - A', value: 'name-desc' },
-]);
-const sortBy = ref(sortOptions.value[0].value);
+const shopStore = useShopStore();
+const sortByOptions = shopStore.sortByOptions;
+
 const currentPage = ref(1);
 const filteredItems: Ref<ShopItemDto[]> = ref([]);
 const notificationSnackbar = ref({
@@ -25,8 +20,19 @@ const notificationSnackbar = ref({
 const itemsLoading = ref(true);
 const pageLoading = ref(false);
 
+const categoryFilters = computed(() => shopStore.categoryFilters);
+const sortBy = computed({
+  get() {
+    return shopStore.sortBy;
+  },
+  set(newValue) {
+    shopStore.setSortBy(newValue);
+  },
+});
+
 onMounted(() => {
   getShopItems();
+  getCategories();
   document.addEventListener('scroll', handleScroll);
 });
 
@@ -56,6 +62,26 @@ async function getShopItems() {
 
   const newItems = [...fakeDatabase.shopItems];
 
+  const locallyFilteredItems = handleFilters(newItems);
+  const sortedItems = handleSortBy(locallyFilteredItems);
+
+  filteredItems.value = [...filteredItems.value, ...sortedItems];
+
+  itemsLoading.value = false;
+  pageLoading.value = false;
+}
+
+function handleFilters(newItems: ShopItemDto[]) {
+  if (!categoryFilters.value.length) {
+    return newItems;
+  }
+
+  return newItems.filter((item) =>
+    item.categories.some((cat) => categoryFilters.value.includes(cat.id)),
+  );
+}
+
+function handleSortBy(newItems: ShopItemDto[]) {
   switch (sortBy.value) {
     case 'date-desc':
       newItems.sort((a, b) => b.dateCreated - a.dateCreated);
@@ -83,10 +109,14 @@ async function getShopItems() {
       break;
   }
 
-  filteredItems.value = [...filteredItems.value, ...newItems];
+  return newItems;
+}
 
-  itemsLoading.value = false;
-  pageLoading.value = false;
+async function getCategories() {
+  shopStore.categoryFiltersOptionsLoading = true;
+  await waitFor();
+  shopStore.setCategoryFiltersOptions(fakeDatabase.categories);
+  shopStore.categoryFiltersOptionsLoading = false;
 }
 
 function showNotification(message: string) {
@@ -113,7 +143,7 @@ function handleCart(value: boolean, shopItem: ShopItemDto) {
   showNotification(`Removed "${shopItem.name}" from Cart`);
 }
 
-function handleSortByUpdate() {
+function handleSortByFiltersUpdate() {
   currentPage.value = 1;
   filteredItems.value = [];
   getShopItems();
@@ -122,18 +152,18 @@ function handleSortByUpdate() {
 
 <template>
   <div class="shop-page page-width">
-    <ShopFilters />
+    <ShopFilters @change="handleSortByFiltersUpdate" />
     <section class="catalog">
       <div class="catalog__header">
         <v-select
           v-model="sortBy"
-          :items="sortOptions"
+          :items="sortByOptions"
           class="sort-by-select"
           hide-details
           label="Sort by"
           outlined
           variant="plain"
-          @update:model-value="handleSortByUpdate"
+          @update:model-value="handleSortByFiltersUpdate"
         ></v-select>
       </div>
       <div v-if="itemsLoading && currentPage == 1" class="catalog__grid">
