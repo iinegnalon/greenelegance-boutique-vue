@@ -24,7 +24,7 @@ function handleFiltersChange() {
 </script>
 
 <template>
-  <div class="shop-category-filter">
+  <div class="shop-price-filter">
     <v-expansion-panels v-model="panels">
       <v-expansion-panel elevation="0" value="price-filter">
         <v-expansion-panel-title>

@@ -30,7 +30,7 @@ function handleFiltersChange() {
     <v-expansion-panels v-model="panels">
       <v-expansion-panel elevation="0" value="color-filter">
         <v-expansion-panel-title>
-          <span class="shop-filters-title">Colors</span>
+          <span class="shop-filters-title">Filter by Color</span>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
           <v-checkbox

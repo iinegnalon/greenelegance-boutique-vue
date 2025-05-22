@@ -2,6 +2,7 @@
 import ShopCategoryFilter from '~/components/shop/ShopCategoryFilter.vue';
 import ShopPriceFilter from '~/components/shop/ShopPriceFilter.vue';
 import ShopColorFilter from '~/components/shop/ShopColorFilter.vue';
+import ShopSizeFilter from '~/components/shop/ShopSizeFilter.vue';
 
 const emit = defineEmits(['change']);
 
@@ -15,6 +16,7 @@ function handleFiltersChange() {
     <ShopCategoryFilter @change="handleFiltersChange" />
     <ShopPriceFilter @change="handleFiltersChange" />
     <ShopColorFilter @change="handleFiltersChange" />
+    <ShopSizeFilter @change="handleFiltersChange" />
   </section>
 </template>
 

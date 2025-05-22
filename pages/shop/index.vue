@@ -26,6 +26,7 @@ const sortBy = computed(() => shopStore.sortBy);
 const categoryFilters = computed(() => shopStore.categoryFilters);
 const priceFilter = computed(() => shopStore.priceFilter);
 const colorFilters = computed(() => shopStore.colorFilters);
+const sizeFilters = computed(() => shopStore.sizeFilters);
 
 onMounted(() => {
   getShopItems();
@@ -94,6 +95,12 @@ function handleFilters(newItems: ShopItemDto[]) {
   if (colorFilters.value.length) {
     newItems = newItems.filter((item) =>
       item.colors.some((col) => colorFilters.value.includes(col)),
+    );
+  }
+
+  if (sizeFilters.value.length) {
+    newItems = newItems.filter((item) =>
+      item.sizes.some((size) => sizeFilters.value.includes(size)),
     );
   }
 
