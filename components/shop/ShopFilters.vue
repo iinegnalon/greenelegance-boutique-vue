@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import ShopCategoryFilter from '~/components/shop/ShopCategoryFilter.vue';
+import ShopPriceFilter from '~/components/shop/ShopPriceFilter.vue';
+
 const emit = defineEmits(['change']);
 
 function handleFiltersChange() {
@@ -9,6 +12,7 @@ function handleFiltersChange() {
 <template>
   <section class="shop-filters">
     <ShopCategoryFilter @change="handleFiltersChange" />
+    <ShopPriceFilter @change="handleFiltersChange" />
   </section>
 </template>
 
@@ -27,6 +31,10 @@ function handleFiltersChange() {
       .v-expansion-panel-title--active:hover > .v-expansion-panel-title__overlay
     ) {
     opacity: 0.04;
+  }
+
+  ::v-deep(.v-label) {
+    opacity: 1;
   }
 }
 

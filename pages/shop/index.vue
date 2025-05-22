@@ -5,9 +5,11 @@ import { waitFor } from '~/utils';
 import type { ShopItemDto } from '~/models/dto/shopItemDto';
 import ShopItemCard from '~/components/ShopItemCard.vue';
 import { useShopStore } from '~/store/shopStore';
+import ShopSortBy from '~/components/shop/ShopSortBy.vue';
 
 const shopStore = useShopStore();
-const sortByOptions = shopStore.sortByOptions;
+
+let debounceTimeout: ReturnType<typeof setTimeout> | null = null;
 
 const currentPage = ref(1);
 const filteredItems: Ref<ShopItemDto[]> = ref([]);
@@ -20,19 +22,14 @@ const notificationSnackbar = ref({
 const itemsLoading = ref(true);
 const pageLoading = ref(false);
 
+const sortBy = computed(() => shopStore.sortBy);
 const categoryFilters = computed(() => shopStore.categoryFilters);
-const sortBy = computed({
-  get() {
-    return shopStore.sortBy;
-  },
-  set(newValue) {
-    shopStore.setSortBy(newValue);
-  },
-});
+const priceFilter = computed(() => shopStore.priceFilter);
 
 onMounted(() => {
   getShopItems();
   getCategories();
+  getPrices();
   document.addEventListener('scroll', handleScroll);
 });
 
@@ -50,9 +47,17 @@ function handleScroll() {
   const clientHeight = window.innerHeight;
 
   if (scrollHeight - scrollTop <= clientHeight + 400) {
-    currentPage.value++;
-    getShopItems();
+    loadNewPage();
   }
+}
+
+function loadNewPage() {
+  if (filteredItems.value.length === 0) {
+    return;
+  }
+
+  currentPage.value++;
+  getShopItems();
 }
 
 async function getShopItems() {
@@ -72,13 +77,20 @@ async function getShopItems() {
 }
 
 function handleFilters(newItems: ShopItemDto[]) {
-  if (!categoryFilters.value.length) {
-    return newItems;
+  if (categoryFilters.value.length) {
+    newItems = newItems.filter((item) =>
+      item.categories.some((cat) => categoryFilters.value.includes(cat.id)),
+    );
   }
 
-  return newItems.filter((item) =>
-    item.categories.some((cat) => categoryFilters.value.includes(cat.id)),
-  );
+  if (priceFilter.value.length) {
+    newItems = newItems.filter((item) => {
+      const price = item.discountedPrice ?? item.price;
+      return price >= priceFilter.value[0] && price <= priceFilter.value[1];
+    });
+  }
+
+  return newItems;
 }
 
 function handleSortBy(newItems: ShopItemDto[]) {
@@ -119,6 +131,19 @@ async function getCategories() {
   shopStore.categoryFiltersOptionsLoading = false;
 }
 
+async function getPrices() {
+  await waitFor();
+  const prices = fakeDatabase.shopItems.map(
+    (item) => item.discountedPrice ?? item.price,
+  );
+  const min = Math.min(...prices);
+  const max = Math.max(...prices);
+
+  shopStore.setPriceFilterMin(min);
+  shopStore.setPriceFilterMax(max);
+  shopStore.setPriceFilter([min, max]);
+}
+
 function showNotification(message: string) {
   notificationSnackbar.value.show = true;
   notificationSnackbar.value.color = 'success';
@@ -148,23 +173,24 @@ function handleSortByFiltersUpdate() {
   filteredItems.value = [];
   getShopItems();
 }
+
+function debouncedHandleSortByFiltersUpdate() {
+  if (debounceTimeout) {
+    clearTimeout(debounceTimeout);
+  }
+
+  debounceTimeout = setTimeout(() => {
+    handleSortByFiltersUpdate();
+  }, 500);
+}
 </script>
 
 <template>
   <div class="shop-page page-width">
-    <ShopFilters @change="handleSortByFiltersUpdate" />
+    <ShopFilters @change="debouncedHandleSortByFiltersUpdate" />
     <section class="catalog">
       <div class="catalog__header">
-        <v-select
-          v-model="sortBy"
-          :items="sortByOptions"
-          class="sort-by-select"
-          hide-details
-          label="Sort by"
-          outlined
-          variant="plain"
-          @update:model-value="handleSortByFiltersUpdate"
-        ></v-select>
+        <ShopSortBy @change="handleSortByFiltersUpdate" />
       </div>
       <div v-if="itemsLoading && currentPage == 1" class="catalog__grid">
         <v-skeleton-loader
@@ -183,12 +209,16 @@ function handleSortByFiltersUpdate() {
           @favorite="handleFavorite"
         />
       </div>
+      <div v-else>Sorry, no items found</div>
       <div v-if="pageLoading && currentPage > 1" class="page-loader">
         <v-progress-circular
           color="black"
           indeterminate
           size="32"
         ></v-progress-circular>
+      </div>
+      <div v-else-if="filteredItems.length > 0" class="page-loader">
+        <v-btn class="button_secondary" @click="loadNewPage">Load More</v-btn>
       </div>
     </section>
 

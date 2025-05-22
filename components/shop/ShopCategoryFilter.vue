@@ -39,12 +39,16 @@ function handleFiltersChange() {
               v-for="category in categoryFiltersOptions"
               :key="category.id"
               v-model="categoryFilters"
-              :label="category.name"
               :value="category.id"
+              color="#333"
               density="compact"
               hide-details
               @change="handleFiltersChange"
-            ></v-checkbox>
+            >
+              <template #label>
+                <span class="shop-filters-label">{{ category.name }}</span>
+              </template>
+            </v-checkbox>
           </div>
         </v-expansion-panel-text>
       </v-expansion-panel>

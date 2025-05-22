@@ -14,6 +14,7 @@ interface ShopStore {
   categoryFiltersOptionsLoading: boolean;
   priceFilterMin: number;
   priceFilterMax: number;
+  priceFilter: number[];
   colorFilters: string[];
   sizeFilters: string[];
 }
@@ -36,7 +37,8 @@ export const useShopStore = defineStore({
     categoryFiltersOptions: [],
     categoryFiltersOptionsLoading: false,
     priceFilterMin: 0,
-    priceFilterMax: 10000000,
+    priceFilterMax: 1000000,
+    priceFilter: [0, 1000000],
     colorFilters: [],
     sizeFilters: [],
   }),
@@ -57,9 +59,16 @@ export const useShopStore = defineStore({
       this.categoryFiltersOptionsLoading = categoryFiltersOptionsLoading;
     },
 
-    setPriceFilter(priceFilterMin = 0, priceFilterMax = 10000000) {
+    setPriceFilterMin(priceFilterMin: number) {
       this.priceFilterMin = priceFilterMin;
+    },
+
+    setPriceFilterMax(priceFilterMax: number) {
       this.priceFilterMax = priceFilterMax;
+    },
+
+    setPriceFilter(priceFilter: number[] = [0, 1000000]) {
+      this.priceFilter = priceFilter;
     },
 
     setColorFilters(colorFilters: string[]) {
