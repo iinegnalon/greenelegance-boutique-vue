@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import ShopCategoryFilter from '~/components/shop/ShopCategoryFilter.vue';
 import ShopPriceFilter from '~/components/shop/ShopPriceFilter.vue';
+import ShopColorFilter from '~/components/shop/ShopColorFilter.vue';
 
 const emit = defineEmits(['change']);
 
@@ -13,6 +14,7 @@ function handleFiltersChange() {
   <section class="shop-filters">
     <ShopCategoryFilter @change="handleFiltersChange" />
     <ShopPriceFilter @change="handleFiltersChange" />
+    <ShopColorFilter @change="handleFiltersChange" />
   </section>
 </template>
 
@@ -35,6 +37,7 @@ function handleFiltersChange() {
 
   ::v-deep(.v-label) {
     opacity: 1;
+    width: 100%;
   }
 }
 

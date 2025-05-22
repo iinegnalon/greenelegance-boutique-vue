@@ -25,6 +25,7 @@ const pageLoading = ref(false);
 const sortBy = computed(() => shopStore.sortBy);
 const categoryFilters = computed(() => shopStore.categoryFilters);
 const priceFilter = computed(() => shopStore.priceFilter);
+const colorFilters = computed(() => shopStore.colorFilters);
 
 onMounted(() => {
   getShopItems();
@@ -90,6 +91,12 @@ function handleFilters(newItems: ShopItemDto[]) {
     });
   }
 
+  if (colorFilters.value.length) {
+    newItems = newItems.filter((item) =>
+      item.colors.some((col) => colorFilters.value.includes(col)),
+    );
+  }
+
   return newItems;
 }
 
@@ -125,10 +132,10 @@ function handleSortBy(newItems: ShopItemDto[]) {
 }
 
 async function getCategories() {
-  shopStore.categoryFiltersOptionsLoading = true;
+  shopStore.setCategoryFiltersOptionsLoading(true);
   await waitFor();
   shopStore.setCategoryFiltersOptions(fakeDatabase.categories);
-  shopStore.categoryFiltersOptionsLoading = false;
+  shopStore.setCategoryFiltersOptionsLoading(false);
 }
 
 async function getPrices() {
