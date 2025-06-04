@@ -7,6 +7,8 @@ import ShopItemCard from '~/components/ShopItemCard.vue';
 import { useShopStore } from '~/store/shopStore';
 import ShopSortBy from '~/components/shop/ShopSortBy.vue';
 
+const route = useRoute();
+const router = useRouter();
 const shopStore = useShopStore();
 
 let debounceTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -143,6 +145,29 @@ async function getCategories() {
   await waitFor();
   shopStore.setCategoryFiltersOptions(fakeDatabase.categories);
   shopStore.setCategoryFiltersOptionsLoading(false);
+
+  applyCategoryFromQuery();
+}
+
+function applyCategoryFromQuery() {
+  const slug = route.query.category;
+
+  if (!slug) return;
+
+  const matchedCategory = shopStore.categoryFiltersOptions.find(
+    (cat) => cat.slug === slug,
+  );
+
+  if (
+    matchedCategory &&
+    !shopStore.categoryFilters.includes(matchedCategory.id)
+  ) {
+    shopStore.setCategoryFilters([
+      ...shopStore.categoryFilters,
+      matchedCategory.id,
+    ]);
+    handleSortByFiltersUpdate();
+  }
 }
 
 async function getPrices() {
@@ -183,9 +208,19 @@ function handleCart(value: boolean, shopItem: ShopItemDto) {
 }
 
 function handleSortByFiltersUpdate() {
+  clearParameters();
   currentPage.value = 1;
   filteredItems.value = [];
   getShopItems();
+}
+
+function clearParameters() {
+  const { query, path } = route;
+  if (!query.category) return;
+
+  const newQuery = { ...query };
+  delete newQuery.category;
+  router.replace({ path, query: newQuery });
 }
 
 function debouncedHandleSortByFiltersUpdate() {
