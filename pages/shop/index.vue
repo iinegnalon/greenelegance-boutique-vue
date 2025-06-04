@@ -6,8 +6,11 @@ import type { ShopItemDto } from '~/models/dto/shopItemDto';
 import ShopItemCard from '~/components/ShopItemCard.vue';
 import { useShopStore } from '~/store/shopStore';
 import ShopSortBy from '~/components/shop/ShopSortBy.vue';
+import { useUserStore } from '~/store/userStore';
 
+const router = useRouter();
 const shopStore = useShopStore();
+const userStore = useUserStore();
 
 let debounceTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -165,21 +168,17 @@ function showNotification(message: string) {
 }
 
 function handleFavorite(value: boolean, shopItem: ShopItemDto) {
+  if (!userStore.user) {
+    router.push('/login');
+    return;
+  }
+
   if (value) {
     showNotification(`Added "${shopItem.name}" to Favorites`);
     return;
   }
 
   showNotification(`Removed "${shopItem.name}" from Favorites`);
-}
-
-function handleCart(value: boolean, shopItem: ShopItemDto) {
-  if (value) {
-    showNotification(`Added "${shopItem.name}" to Cart`);
-    return;
-  }
-
-  showNotification(`Removed "${shopItem.name}" from Cart`);
 }
 
 function handleSortByFiltersUpdate() {
@@ -219,7 +218,6 @@ function debouncedHandleSortByFiltersUpdate() {
           v-for="item in filteredItems"
           :key="item.id"
           :shop-item="item"
-          @cart="handleCart"
           @favorite="handleFavorite"
         />
       </div>

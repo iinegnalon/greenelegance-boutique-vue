@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import ShopItemCard from '~/components/ShopItemCard.vue';
 import type { ShopItemDto } from '~/models/dto/shopItemDto';
+import { useUserStore } from '~/store/userStore';
+
+const router = useRouter();
+const userStore = useUserStore();
 
 const shopItems = fakeDatabase.shopItems.slice(0, 8);
 
@@ -18,21 +22,17 @@ function showNotification(message: string) {
 }
 
 function handleFavorite(value: boolean, shopItem: ShopItemDto) {
+  if (!userStore.user) {
+    router.push('/login');
+    return;
+  }
+
   if (value) {
     showNotification(`Added "${shopItem.name}" to Favorites`);
     return;
   }
 
   showNotification(`Removed "${shopItem.name}" from Favorites`);
-}
-
-function handleCart(value: boolean, shopItem: ShopItemDto) {
-  if (value) {
-    showNotification(`Added "${shopItem.name}" to Cart`);
-    return;
-  }
-
-  showNotification(`Removed "${shopItem.name}" from Cart`);
 }
 </script>
 
@@ -44,7 +44,6 @@ function handleCart(value: boolean, shopItem: ShopItemDto) {
         v-for="item in shopItems"
         :key="item.id"
         :shop-item="item"
-        @cart="handleCart"
         @favorite="handleFavorite"
       />
     </div>
