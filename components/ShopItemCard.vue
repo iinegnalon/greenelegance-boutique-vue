@@ -100,7 +100,7 @@ function addToCart() {
 
   &__price {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: 4px;
   }
 

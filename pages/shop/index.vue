@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { Ref } from 'vue';
 import ShopFilters from '~/components/shop/ShopFilters.vue';
 import { waitFor } from '~/utils';
 import type { ShopItemDto } from '~/models/dto/shopItemDto';
@@ -14,7 +13,7 @@ const shopStore = useShopStore();
 let debounceTimeout: ReturnType<typeof setTimeout> | null = null;
 
 const currentPage = ref(1);
-const filteredItems: Ref<ShopItemDto[]> = ref([]);
+const filteredItems = ref<ShopItemDto[]>([]);
 const notificationSnackbar = ref({
   show: false,
   message: '',
