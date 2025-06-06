@@ -5,6 +5,7 @@ import { fakeDatabase } from '~/utils/fakeDatabase';
 import { Color } from '~/models/enums/color';
 import { Size } from '~/models/enums/size';
 import type { ShopItemDto } from '~/models/dto/shopItemDto';
+import QuantityInput from '~/components/common/QuantityInput.vue';
 
 const route = useRoute();
 const slug = route.params.shopItem;
@@ -17,7 +18,6 @@ const selectedColor = ref<Color | null>(null);
 const selectedSize = ref<Size | null>(null);
 const quantity = ref(1);
 const favorite = ref(false);
-const inCart = ref(false);
 const notificationSnackbar = ref({
   show: false,
   message: '',
@@ -69,14 +69,7 @@ function addToFavorites() {
 function addToCart() {
   if (!shopItem.value) return;
 
-  inCart.value = !inCart.value;
-
-  if (inCart.value) {
-    showNotification(`Added "${shopItem.value.name}" to Cart`);
-    return;
-  }
-
-  showNotification(`Removed "${shopItem.value.name}" from Cart`);
+  showNotification(`Added "${shopItem.value.name}" to Cart`);
 }
 
 function selectColor(color: Color) {
@@ -95,7 +88,7 @@ function selectSize(size: Size) {
     </div>
     <div class="product__details">
       <div class="product__header">
-        <h1 class="product__brand">{{ shopItem.brand }}</h1>
+        <h1 class="product__brand ellipsis">{{ shopItem.brand }}</h1>
         <div
           :class="{ product__stock_out: shopItem.stock < 1 }"
           class="product__stock"
@@ -151,16 +144,19 @@ function selectSize(size: Size) {
       </div>
 
       <div class="product__actions">
-        <div>
-          <v-btn :disabled="quantity <= 1" @click="quantity--">-</v-btn>
-          <span>{{ quantity }}</span>
-          <v-btn :disabled="quantity >= shopItem.stock" @click="quantity++"
-            >+</v-btn
-          >
-        </div>
-        <v-btn color="primary" @click="addToCart">Add to Cart</v-btn>
+        <QuantityInput
+          v-model="quantity"
+          :max="shopItem.stock"
+          :min="1"
+          class="product__quantity"
+        />
+        <v-btn class="product__add-to-cart" color="black" @click="addToCart">
+          Add to Cart
+        </v-btn>
         <v-btn
           :icon="favorite ? 'mdi-heart' : 'mdi-heart-outline'"
+          class="product__add-to-favorites"
+          variant="outlined"
           @click="addToFavorites"
         />
       </div>
@@ -190,15 +186,18 @@ function selectSize(size: Size) {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding-top: 12px;
 
   @media screen and (min-width: $tablet-breakpoint) {
     gap: 40px;
     flex-direction: row;
+    justify-content: center;
   }
 
   .product {
     &__image {
       flex: 1;
+      max-width: 800px;
 
       img {
         width: 100%;
@@ -212,11 +211,22 @@ function selectSize(size: Size) {
       flex-direction: column;
       gap: 12px;
 
+      @media screen and (min-width: $tablet-breakpoint) {
+        max-width: 300px;
+      }
+
+      @media screen and (min-width: $desktop-breakpoint) {
+        max-width: 400px;
+      }
+
+      @media screen and (min-width: 1024px) {
+        max-width: 600px;
+      }
+
       .product__header {
         display: flex;
         flex-direction: column-reverse;
         gap: 8px;
-        max-width: 600px;
 
         @media screen and (min-width: $tablet-breakpoint) {
           flex-direction: row;
@@ -230,17 +240,24 @@ function selectSize(size: Size) {
         }
 
         .product__stock {
-          color: green;
+          color: $color-green;
+          background-color: $color-green-l;
+          padding: 12px;
+          border-radius: 8px;
+          font-size: 14px;
+          width: fit-content;
+          white-space: nowrap;
 
           &_out {
-            color: red;
+            color: $color-red;
+            background-color: $color-red-l;
           }
         }
       }
 
       .product__name,
       .product__description {
-        color: $secondary-color;
+        color: $color-secondary;
       }
 
       .product__price {
@@ -309,8 +326,50 @@ function selectSize(size: Size) {
 
       .product__actions {
         display: flex;
+        flex-wrap: wrap;
         gap: 12px;
         margin-top: 16px;
+
+        @media screen and (min-width: $tablet-breakpoint) {
+          flex-wrap: nowrap;
+          align-items: center;
+        }
+      }
+
+      .product__add-to-cart {
+        order: 2;
+        width: 100%;
+        height: 44px;
+        text-transform: none;
+        font-size: 14px;
+        border-radius: 6px;
+
+        @media screen and (min-width: $tablet-breakpoint) {
+          order: 0;
+          width: auto;
+          max-width: 415px;
+          flex-grow: 1;
+        }
+      }
+
+      .product__quantity,
+      .product__add-to-favorites {
+        order: 1;
+        height: 44px;
+
+        @media screen and (min-width: $tablet-breakpoint) {
+          order: 0;
+        }
+      }
+
+      .product__quantity {
+        margin-right: auto;
+        min-width: 0;
+      }
+
+      .product__add-to-favorites {
+        width: 44px;
+        border-radius: 6px;
       }
     }
   }

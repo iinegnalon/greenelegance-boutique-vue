@@ -73,6 +73,6 @@ function handleFiltersChange() {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  border: 1px solid $secondary-color;
+  border: 1px solid $color-secondary;
 }
 </style>
