@@ -1,13 +1,15 @@
 <script lang="ts" setup>
-import { useRoute } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import { fakeDatabase } from '~/utils/fakeDatabase';
 import { Color } from '~/models/enums/color';
 import { Size } from '~/models/enums/size';
 import type { ShopItemDto } from '~/models/dto/shopItemDto';
 import QuantityInput from '~/components/common/QuantityInput.vue';
+import { useUserStore } from '~/store/userStore';
 
 const route = useRoute();
+const router = useRouter();
+const userStore = useUserStore();
 const slug = route.params.shopItem;
 
 const shopItem = ref<ShopItemDto | null>();
@@ -54,6 +56,11 @@ function showNotification(message: string) {
 }
 
 function addToFavorites() {
+  if (!userStore.user) {
+    router.push('/login');
+    return;
+  }
+
   if (!shopItem.value) return;
 
   favorite.value = !favorite.value;

@@ -57,7 +57,8 @@ async function submitForm() {
   };
   userStore.setUser(user);
 
-  await router.push('/');
+  const lastPath = localStorage.getItem('lastVisitedPath') || '/';
+  await router.push(lastPath);
 }
 </script>
 
