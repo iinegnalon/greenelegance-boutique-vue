@@ -360,7 +360,7 @@ async function logout() {
     &__welcome-message {
       display: block;
       font-size: 16px;
-      color: $secondary-color;
+      color: $color-secondary;
       max-width: 160px;
     }
   }

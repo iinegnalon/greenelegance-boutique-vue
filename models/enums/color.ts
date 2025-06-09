@@ -16,29 +16,29 @@ export namespace Color {
   export function toHex(color: Color) {
     switch (color) {
       case Color.Red:
-        return '#FF0000';
+        return '#E57373';
       case Color.Orange:
-        return '#FFA500';
+        return '#FFB74D';
       case Color.Yellow:
-        return '#FFFF00';
+        return '#FFF176';
       case Color.Green:
-        return '#008000';
+        return '#81C784';
       case Color.Teal:
-        return '#008080';
+        return '#4DB6AC';
       case Color.Cyan:
-        return '#00FFFF';
+        return '#4DD0E1';
       case Color.Blue:
-        return '#0000FF';
+        return '#64B5F6';
       case Color.Purple:
-        return '#800080';
+        return '#BA68C8';
       case Color.Black:
-        return '#000000';
+        return '#333333';
       case Color.Gray:
-        return '#808080';
+        return '#B0BEC5';
       case Color.White:
-        return '#FFFFFF';
+        return '#FAFAFA';
       default:
-        return '#000000';
+        return '#333333';
     }
   }
 }
