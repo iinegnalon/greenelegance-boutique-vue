@@ -103,6 +103,7 @@ const countdownDate = new Date(
   }
 }
 
+// Tablet
 @media screen and (min-width: $tablet-breakpoint) {
   .month-deal {
     &__content {
@@ -128,6 +129,7 @@ const countdownDate = new Date(
   }
 }
 
+// Desktop
 @media screen and (min-width: $desktop-breakpoint) {
   .month-deal {
     display: block;

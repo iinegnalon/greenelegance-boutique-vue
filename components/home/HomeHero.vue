@@ -113,6 +113,7 @@
   }
 }
 
+// Tablet
 @media screen and (min-width: $tablet-breakpoint) {
   .home-page-hero {
     &__button {
@@ -140,6 +141,7 @@
   }
 }
 
+// Desktop
 @media screen and (min-width: $desktop-breakpoint) {
   .home-page-hero {
     display: block;

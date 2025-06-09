@@ -59,6 +59,7 @@ function addToFavorites() {
 @import '@/assets/css/styles.scss';
 @import '@/assets/css/variables.scss';
 
+// Mobile
 .shop-item-card {
   border: 1px solid #ccc;
   border-radius: 8px;

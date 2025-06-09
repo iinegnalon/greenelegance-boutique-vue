@@ -24,6 +24,7 @@ function handleFiltersChange() {
 @import '@/assets/css/styles.scss';
 @import '@/assets/css/variables.scss';
 
+// Mobile
 .shop-filters {
   ::v-deep(
       .v-expansion-panel-title--active > .v-expansion-panel-title__overlay
@@ -47,6 +48,7 @@ function handleFiltersChange() {
   display: none;
 }
 
+// Desktop
 @media screen and (min-width: $desktop-breakpoint) {
   .shop-filters {
     display: block;

@@ -107,6 +107,7 @@ async function submitForm() {
 @import '@/assets/css/styles.scss';
 @import '@/assets/css/variables.scss';
 
+// Mobile
 .login-page {
   display: flex;
   justify-content: center;
@@ -170,6 +171,7 @@ async function submitForm() {
   }
 }
 
+// Desktop
 @media screen and (min-width: $desktop-breakpoint) {
   .login-page {
     flex-direction: row;

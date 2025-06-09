@@ -150,6 +150,7 @@ async function submitForm() {
 @import '@/assets/css/styles.scss';
 @import '@/assets/css/variables.scss';
 
+// Mobile
 .signup-page {
   display: flex;
   justify-content: center;
@@ -213,6 +214,7 @@ async function submitForm() {
   }
 }
 
+// Desktop
 @media screen and (min-width: $desktop-breakpoint) {
   .signup-page {
     flex-direction: row;

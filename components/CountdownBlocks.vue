@@ -49,21 +49,21 @@ function updateCountdown() {
       <span class="countdown-block__type">Days</span>
     </div>
     <div class="countdown-block">
-      <span class="countdown-block__number">{{
-        countdownVariables.hours
-      }}</span>
+      <span class="countdown-block__number">
+        {{ countdownVariables.hours }}
+      </span>
       <span class="countdown-block__type">Hours</span>
     </div>
     <div class="countdown-block">
-      <span class="countdown-block__number">{{
-        countdownVariables.minutes
-      }}</span>
+      <span class="countdown-block__number">
+        {{ countdownVariables.minutes }}
+      </span>
       <span class="countdown-block__type">Mins</span>
     </div>
     <div class="countdown-block">
-      <span class="countdown-block__number">{{
-        countdownVariables.seconds
-      }}</span>
+      <span class="countdown-block__number">
+        {{ countdownVariables.seconds }}
+      </span>
       <span class="countdown-block__type">Secs</span>
     </div>
   </div>
@@ -72,6 +72,7 @@ function updateCountdown() {
 <style lang="scss" scoped>
 @import '@/assets/css/variables.scss';
 
+// Mobile
 .countdown-row {
   display: flex;
   gap: 10px;
@@ -99,6 +100,7 @@ function updateCountdown() {
   }
 }
 
+// Tablet
 @media screen and (min-width: $tablet-breakpoint) {
   .countdown-row {
     gap: 16px;
@@ -118,6 +120,7 @@ function updateCountdown() {
   }
 }
 
+// Desktop
 @media screen and (min-width: $desktop-breakpoint) {
   .countdown-row {
     gap: 20px;

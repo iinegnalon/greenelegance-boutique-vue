@@ -154,6 +154,7 @@ async function logout() {
 @import '@/assets/css/styles.scss';
 @import '@/assets/css/variables.scss';
 
+// Mobile
 .header {
   @extend .page-width;
 
@@ -289,6 +290,7 @@ async function logout() {
   display: none;
 }
 
+// Tablet
 @media screen and (min-width: $tablet-breakpoint) {
   .header {
     padding-top: 16px;
@@ -296,6 +298,7 @@ async function logout() {
   }
 }
 
+// Desktop
 @media screen and (min-width: $desktop-breakpoint) {
   .header {
     padding-top: 20px;
@@ -355,6 +358,7 @@ async function logout() {
   }
 }
 
+// Other
 @media screen and (min-width: 1150px) {
   .header {
     &__welcome-message {
