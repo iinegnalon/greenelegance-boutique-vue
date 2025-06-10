@@ -14,7 +14,8 @@ export const useUserStore = defineStore({
   actions: {
     setUser(user: UserDto) {
       this.user = user;
-      localStorage.setItem('user', JSON.stringify(user));
+
+      this.updateLocalStorage();
     },
 
     clearUser() {
@@ -25,6 +26,10 @@ export const useUserStore = defineStore({
     async logout() {
       await waitFor();
       this.clearUser();
+    },
+
+    updateLocalStorage() {
+      localStorage.setItem('user', JSON.stringify(this.user));
     },
   },
 });

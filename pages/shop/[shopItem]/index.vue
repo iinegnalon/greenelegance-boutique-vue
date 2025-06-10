@@ -6,10 +6,12 @@ import { Size } from '~/models/enums/size';
 import type { ShopItemDto } from '~/models/dto/shopItemDto';
 import QuantityInput from '~/components/common/QuantityInput.vue';
 import { useUserStore } from '~/store/userStore';
+import { useCartStore } from '~/store/cartStore';
 
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
+const cartStore = useCartStore();
 const slug = route.params.shopItem;
 
 const shopItem = ref<ShopItemDto | null>();
@@ -75,6 +77,15 @@ function addToFavorites() {
 
 function addToCart() {
   if (!shopItem.value) return;
+
+  cartStore.addToCart(
+    shopItem.value,
+    selectedColor.value,
+    selectedSize.value,
+    quantity.value,
+  );
+
+  quantity.value = 1;
 
   showNotification(`Added "${shopItem.value.name}" to Cart`);
 }

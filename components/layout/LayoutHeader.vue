@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { useUserStore } from '~/store/userStore';
+import { useCartStore } from '~/store/cartStore';
 
 const router = useRouter();
 const userStore = useUserStore();
+const cartStore = useCartStore();
 
 const menuOpen = ref(false);
 const lastScrollTop = ref(0);
@@ -122,7 +124,9 @@ async function logout() {
 
       <NuxtLink class="cart-link" to="/cart">
         <v-icon size="32">mdi-cart-outline</v-icon>
-        <div v-if="false" class="cart-link__count">{{ 10 }}</div>
+        <div v-if="cartStore.totalItems > 0" class="cart-link__count">
+          {{ cartStore.totalItems }}
+        </div>
       </NuxtLink>
 
       <div v-if="!userStore.user" class="header__button-container">

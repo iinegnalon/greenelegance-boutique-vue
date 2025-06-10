@@ -6,8 +6,8 @@ import type { Size } from '~/models/enums/size';
 interface CartItem {
   product: ShopItemDto;
   quantity: number;
-  selectedColor: Color;
-  selectedSize: Size;
+  selectedColor: Color | null;
+  selectedSize: Size | null;
 }
 
 interface CartStore {
@@ -32,7 +32,18 @@ export const useCartStore = defineStore({
     },
   },
   actions: {
-    addToCart(product: ShopItemDto, selectedColor: Color, selectedSize: Size) {
+    setCart(items: CartItem[]) {
+      this.items = items;
+
+      this.updateLocalStorage();
+    },
+
+    addToCart(
+      product: ShopItemDto,
+      selectedColor: Color | null,
+      selectedSize: Size | null,
+      quantity = 1,
+    ) {
       const existing = this.items.find(
         (item) =>
           item.product.id === product.id &&
@@ -41,15 +52,17 @@ export const useCartStore = defineStore({
       );
 
       if (existing) {
-        existing.quantity++;
+        existing.quantity += quantity;
       } else {
         this.items.push({
           product,
-          quantity: 1,
+          quantity,
           selectedColor,
           selectedSize,
         });
       }
+
+      this.updateLocalStorage();
     },
 
     removeFromCart(index: number, removeAll = false) {
@@ -60,10 +73,18 @@ export const useCartStore = defineStore({
       } else {
         this.items[index].quantity--;
       }
+
+      this.updateLocalStorage();
     },
 
     clearCart() {
       this.items = [];
+
+      localStorage.removeItem('cart');
+    },
+
+    updateLocalStorage() {
+      localStorage.setItem('cart', JSON.stringify(this.items));
     },
   },
 });
