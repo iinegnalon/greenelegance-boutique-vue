@@ -11,14 +11,20 @@ const cart = useCartStore();
 
 <template>
   <div class="cart-item-card">
-    <img
-      :alt="cartItem.product.name"
-      :src="cartItem.product.image"
+    <NuxtLink
+      :to="`/shop/${cartItem.product.slug}`"
       class="cart-item-card__image"
-    />
+    >
+      <img :alt="cartItem.product.name" :src="cartItem.product.image" />
+    </NuxtLink>
 
     <div class="cart-item-card__info">
-      <h3 class="cart-item-card__name">{{ cartItem.product.name }}</h3>
+      <NuxtLink
+        :to="`/shop/${cartItem.product.slug}`"
+        class="cart-item-card__name"
+      >
+        <h3>{{ cartItem.product.name }}</h3>
+      </NuxtLink>
       <div class="cart-item-card__details">
         <span
           v-if="cartItem.selectedColor && cartItem.selectedColor !== Color.None"
@@ -90,15 +96,25 @@ const cart = useCartStore();
   gap: 12px;
 
   &__image {
-    width: 100%;
-    max-height: 200px;
-    border-radius: 4px;
+    margin: auto;
+
+    img {
+      width: fit-content;
+      object-fit: contain;
+      max-height: 200px;
+      border-radius: 4px;
+    }
   }
 
   &__name {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 4px;
+    display: block;
+    width: fit-content;
+
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
   }
 
   &__details {
@@ -162,10 +178,12 @@ const cart = useCartStore();
     align-items: center;
 
     &__image {
-      width: 100px;
-      height: auto;
-      margin-bottom: 0;
-      margin-right: 16px;
+      margin: 0;
+
+      img {
+        width: 100px;
+        height: auto;
+      }
     }
 
     &__info {
@@ -178,7 +196,15 @@ const cart = useCartStore();
 @media screen and (min-width: $desktop-breakpoint) {
   .cart-item-card {
     &__name {
-      font-size: 18px;
+      h3 {
+        font-size: 18px;
+      }
+    }
+
+    &__image {
+      img {
+        width: auto;
+      }
     }
   }
 }
