@@ -13,14 +13,24 @@ onMounted(() => {
 function initUser() {
   const userFromLocalStorage = localStorage.getItem('user');
   if (userFromLocalStorage) {
-    userStore.setUser(JSON.parse(userFromLocalStorage));
+    try {
+      const parsedUser = JSON.parse(userFromLocalStorage);
+      userStore.setUser(parsedUser);
+    } catch (e) {
+      localStorage.removeItem('user');
+    }
   }
 }
 
 function initCart() {
   const cartFromLocalStorage = localStorage.getItem('cart');
   if (cartFromLocalStorage) {
-    cartStore.setCart(JSON.parse(cartFromLocalStorage));
+    try {
+      const parsedCart = JSON.parse(cartFromLocalStorage);
+      cartStore.setCart(parsedCart);
+    } catch (e) {
+      localStorage.removeItem('cart');
+    }
   }
 }
 </script>

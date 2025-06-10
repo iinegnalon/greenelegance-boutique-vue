@@ -3,7 +3,7 @@ import type { ShopItemDto } from '~/models/dto/shopItemDto';
 import type { Color } from '~/models/enums/color';
 import type { Size } from '~/models/enums/size';
 
-interface CartItem {
+export interface CartItem {
   product: ShopItemDto;
   quantity: number;
   selectedColor: Color | null;
@@ -65,14 +65,23 @@ export const useCartStore = defineStore({
       this.updateLocalStorage();
     },
 
-    removeFromCart(index: number, removeAll = false) {
+    updateQuantity(index: number, quantity = 1, removeAll = false) {
       if (index < 0 || index >= this.items.length) return;
 
-      if (removeAll || this.items[index].quantity <= 1) {
+      const item = this.items[index];
+      item.quantity += quantity;
+
+      if (item.quantity <= 0) {
         this.items.splice(index, 1);
-      } else {
-        this.items[index].quantity--;
       }
+
+      this.updateLocalStorage();
+    },
+
+    removeItem(index: number) {
+      if (index < 0 || index >= this.items.length) return;
+
+      this.items.splice(index, 1);
 
       this.updateLocalStorage();
     },

@@ -94,7 +94,7 @@ function addToFavorites() {
 
   &__crossed-price {
     text-decoration: line-through;
-    color: gray;
+    color: $color-gray;
     font-size: 14px;
   }
 

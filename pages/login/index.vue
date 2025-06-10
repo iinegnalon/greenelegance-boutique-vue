@@ -90,8 +90,9 @@ async function submitForm() {
         :loading="loginLoading"
         class="login-button button_primary"
         type="submit"
-        >Login</v-btn
       >
+        Login
+      </v-btn>
     </form>
 
     <v-snackbar

@@ -238,7 +238,7 @@ function selectSize(size: Size) {
           height: 36px;
           border-radius: 4px;
           cursor: pointer;
-          border: 1px solid gray;
+          border: 1px solid $color-gray;
           font-size: 14px;
 
           &_selected {
@@ -315,7 +315,7 @@ function selectSize(size: Size) {
 
       .shop-item-card__crossed-price {
         text-decoration: line-through;
-        color: gray;
+        color: $color-gray;
         font-size: 18px;
       }
     }

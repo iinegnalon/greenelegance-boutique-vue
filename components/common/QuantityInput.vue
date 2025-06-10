@@ -14,7 +14,12 @@ const props = withDefaults(
   },
 );
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits([
+  'update:modelValue',
+  'change',
+  'increase',
+  'decrease',
+]);
 
 const animate = ref(false);
 
@@ -38,6 +43,9 @@ function decrease() {
   }
 
   quantity.value--;
+
+  emit('decrease');
+  emit('change');
 }
 
 function increase() {
@@ -46,6 +54,9 @@ function increase() {
   }
 
   quantity.value++;
+
+  emit('increase');
+  emit('change');
 }
 </script>
 
