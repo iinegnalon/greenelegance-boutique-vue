@@ -67,6 +67,7 @@ async function submitForm() {
         hide-details
         label="Email"
         required
+        type="email"
       ></v-text-field>
       <v-text-field
         v-model="loginData.password"

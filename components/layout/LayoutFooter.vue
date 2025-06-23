@@ -1,6 +1,12 @@
 <script lang="ts" setup>
 import { isValidEmail, waitFor } from '~/utils';
 
+const contact = {
+  phone: '+123 456 789',
+  email: 'info@example.com',
+  address: '123 Street, City',
+};
+
 const emailInput = ref('example@mail.com');
 const subscriptionSnackbar = ref({
   show: false,
@@ -37,18 +43,18 @@ async function subscribe() {
         <v-img alt="Logo" class="logo" src="~/assets/logo/logo-light.svg" />
       </NuxtLink>
       <div class="footer__contact">
-        <NuxtLink class="footer__phone" to="tel:+123 456 789">
-          Phone: +123 456 789
+        <NuxtLink :to="`tel:${contact.phone}`" class="footer__phone">
+          Phone: {{ contact.phone }}
         </NuxtLink>
-        <NuxtLink class="footer__email" to="mailto:info@example.com">
-          Email: info@example.com
+        <NuxtLink :to="`mailto:${contact.email}`" class="footer__email">
+          Email: {{ contact.email }}
         </NuxtLink>
         <NuxtLink
+          :to="`https://www.google.com/maps/search/${contact.address}`"
           class="footer__address"
           target="_blank"
-          to="https://www.google.com/maps/search/123+Street,+City"
         >
-          Address: 123 Street, City
+          Address: {{ contact.address }}
         </NuxtLink>
       </div>
     </div>
