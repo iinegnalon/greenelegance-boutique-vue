@@ -124,7 +124,10 @@ function clearError(field: ErrorField) {
     <div class="contact__form">
       <h2 class="contact__subtitle">
         Send a Message
-        <v-tooltip text="This is a demo form. Submissions are not processed.">
+        <v-tooltip
+          open-on-click
+          text="This is a demo form. Submissions are not processed."
+        >
           <template #activator="{ props }">
             <v-icon class="contact__tooltip-icon" size="small" v-bind="props">
               mdi-help-circle-outline
