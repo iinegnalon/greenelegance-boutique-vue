@@ -11,9 +11,16 @@ const lastScrollTop = ref(0);
 const scrolling = ref(false);
 const headerHidden = ref(false);
 const logoutLoading = ref(false);
+const mounted = ref(false);
+
+const user = computed(() => userStore.user);
+const userReady = computed(() => {
+  return user.value && mounted.value;
+});
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
+  mounted.value = true;
 });
 
 onBeforeUnmount(() => {
@@ -67,27 +74,27 @@ async function logout() {
     <div
       :class="{
         'header__menu-container_open': menuOpen,
-        'header__menu-container_authed': menuOpen && userStore.user,
+        'header__menu-container_authed': menuOpen && userReady,
       }"
       class="header__menu-container"
     >
       <div class="header__menu" @click="toggleMenu">
         <NuxtLink class="header__link" to="/">Home</NuxtLink>
         <NuxtLink class="header__link" to="/shop">Shop</NuxtLink>
-        <NuxtLink class="header__link" to="/contact"> Contact Us </NuxtLink>
+        <NuxtLink class="header__link" to="/contact"> Contact Us</NuxtLink>
         <v-divider color="white" />
-        <NuxtLink v-if="!userStore.user" class="header__link" to="/login">
+        <NuxtLink v-if="!userReady" class="header__link" to="/login">
           Login / Sign Up
         </NuxtLink>
         <div v-else class="header__menu-user">
           <span
-            :title="userStore.user!.email"
+            :title="user!.email"
             class="header__menu-welcome-message ellipsis"
             @click.stop
           >
-            Welcome, {{ userStore.user!.firstName }}!
+            Welcome, {{ user!.firstName }}!
           </span>
-          <NuxtLink class="header__link" to="/profile"> Profile </NuxtLink>
+          <NuxtLink class="header__link" to="/profile"> Profile</NuxtLink>
           <span v-if="!logoutLoading" class="header__link" @click.stop="logout">
             Logout
           </span>
@@ -115,11 +122,11 @@ async function logout() {
 
     <div class="header__cart-login">
       <span
-        v-if="userStore.user"
-        :title="userStore.user!.email"
+        v-if="userReady"
+        :title="user!.email"
         class="header__welcome-message ellipsis"
       >
-        Welcome, {{ userStore.user!.firstName }}!
+        Welcome, {{ user!.firstName }}!
       </span>
 
       <NuxtLink class="cart-link" to="/cart">
@@ -129,7 +136,7 @@ async function logout() {
         </div>
       </NuxtLink>
 
-      <div v-if="!userStore.user" class="header__button-container">
+      <div v-if="!userReady" class="header__button-container">
         <v-btn class="header__button button_primary" href="/login">
           Login / Sign Up
         </v-btn>

@@ -40,6 +40,11 @@ async function submitForm() {
     firstName: 'John',
     lastName: 'Smith',
     email: loginData.value.email,
+    address: {
+      street: '123 Main St',
+      city: 'Town',
+      zip: '12345',
+    },
   };
   userStore.setUser(user);
 

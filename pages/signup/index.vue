@@ -54,6 +54,11 @@ async function submitForm() {
     firstName: signupData.value.firstName,
     lastName: signupData.value.lastName,
     email: signupData.value.email,
+    address: {
+      street: '',
+      city: '',
+      zip: '',
+    },
   };
   userStore.setUser(user);
 
