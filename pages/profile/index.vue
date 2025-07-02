@@ -25,6 +25,13 @@ const editedUser = ref<UserDto>({
 });
 const accountLoading = ref(true);
 const saveLoading = ref(false);
+const errors = ref({
+  firstName: '',
+  lastName: '',
+  street: '',
+  city: '',
+  zip: '',
+});
 const notificationSnackbar = ref({
   show: false,
   message: '',
@@ -38,6 +45,24 @@ onMounted(() => {
 });
 
 async function saveGeneral() {
+  errors.value.firstName = '';
+  errors.value.lastName = '';
+
+  let valid = true;
+
+  if (!editedUser.value.firstName.trim()) {
+    errors.value.firstName = 'First name is required';
+    valid = false;
+  }
+  if (!editedUser.value.lastName.trim()) {
+    errors.value.lastName = 'Last name is required';
+    valid = false;
+  }
+
+  if (!valid) {
+    return;
+  }
+
   saveLoading.value = true;
 
   await waitFor();
@@ -56,6 +81,29 @@ async function saveGeneral() {
 }
 
 async function saveAddress() {
+  errors.value.street = '';
+  errors.value.city = '';
+  errors.value.zip = '';
+
+  let valid = true;
+
+  if (!editedUser.value.address.street?.trim()) {
+    errors.value.street = 'Street is required';
+    valid = false;
+  }
+  if (!editedUser.value.address.city?.trim()) {
+    errors.value.city = 'City is required';
+    valid = false;
+  }
+  if (!editedUser.value.address.zip?.trim()) {
+    errors.value.zip = 'ZIP is required';
+    valid = false;
+  }
+
+  if (!valid) {
+    return;
+  }
+
   saveLoading.value = true;
 
   await waitFor();
@@ -114,12 +162,16 @@ function changeTab(newTab: string) {
         />
         <v-text-field
           v-model="editedUser.firstName"
+          :error-messages="errors.firstName"
           label="First Name"
+          required
           variant="outlined"
         />
         <v-text-field
           v-model="editedUser.lastName"
+          :error-messages="errors.lastName"
           label="Last Name"
+          required
           variant="outlined"
         />
         <v-btn :loading="saveLoading" color="black" @click="saveGeneral">
@@ -131,20 +183,31 @@ function changeTab(newTab: string) {
         <h2 class="account-page__section-title">Shipping Address</h2>
         <v-text-field
           v-model="editedUser.address.street"
+          :error-messages="errors.street"
           label="Street"
+          required
           variant="outlined"
         />
         <v-text-field
           v-model="editedUser.address.city"
+          :error-messages="errors.city"
           label="City"
+          required
           variant="outlined"
         />
         <v-text-field
           v-model="editedUser.address.zip"
+          :error-messages="errors.zip"
           label="ZIP"
+          required
           variant="outlined"
         />
-        <v-btn :loading="saveLoading" color="black" @click="saveAddress">
+        <v-btn
+          :loading="saveLoading"
+          color="black"
+          type="submit"
+          @click="saveAddress"
+        >
           Save
         </v-btn>
       </div>
@@ -181,11 +244,13 @@ function changeTab(newTab: string) {
   flex-direction: column;
   gap: 16px;
   align-self: center;
+  width: 100%;
 
   &__sidebar {
     display: flex;
     gap: 8px;
-    overflow-x: auto;
+    align-self: center;
+    flex-wrap: wrap;
   }
 
   &__tab {
@@ -195,6 +260,7 @@ function changeTab(newTab: string) {
     border-radius: 4px;
     cursor: pointer;
     white-space: nowrap;
+    transition: 0.25s;
 
     &--active {
       background: black;
@@ -226,11 +292,11 @@ function changeTab(newTab: string) {
   .account-page {
     flex-direction: row;
     justify-content: space-between;
-    width: 100%;
 
     &__sidebar {
       flex-direction: column;
       width: 200px;
+      align-self: flex-start;
     }
 
     &__content {
