@@ -1,14 +1,18 @@
 <script lang="ts" setup>
 import type { ShopItemDto } from '~/models/dto/shopItemDto';
+import { useFavoritesStore } from '~/store/favoritesStore';
 
 const props = defineProps<{ shopItem: ShopItemDto }>();
-const emit = defineEmits(['favorite', 'cart']);
+const emit = defineEmits(['favorite']);
 
-const favorite = ref(false);
+const favoritesStore = useFavoritesStore();
+
+const favorite = computed(() =>
+  favoritesStore.items.includes(props.shopItem.id),
+);
 
 function addToFavorites() {
-  favorite.value = !favorite.value;
-  emit('favorite', favorite.value, props.shopItem);
+  emit('favorite', !favorite.value, props.shopItem);
 }
 </script>
 

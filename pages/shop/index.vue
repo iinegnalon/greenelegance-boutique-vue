@@ -6,11 +6,13 @@ import ShopItemCard from '~/components/ShopItemCard.vue';
 import { useShopStore } from '~/store/shopStore';
 import ShopSortBy from '~/components/shop/ShopSortBy.vue';
 import { useUserStore } from '~/store/userStore';
+import { useFavoritesStore } from '~/store/favoritesStore';
 
 const route = useRoute();
 const router = useRouter();
 const shopStore = useShopStore();
 const userStore = useUserStore();
+const favoritesStore = useFavoritesStore();
 
 let debounceTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -197,10 +199,12 @@ function handleFavorite(value: boolean, shopItem: ShopItemDto) {
   }
 
   if (value) {
+    favoritesStore.addToFavorites(shopItem.id);
     showNotification(`Added "${shopItem.name}" to Favorites`);
     return;
   }
 
+  favoritesStore.removeItem(shopItem.id);
   showNotification(`Removed "${shopItem.name}" from Favorites`);
 }
 

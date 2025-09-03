@@ -1,0 +1,22 @@
+// Mobile
+.profile-page {
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__section-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+}
+
+// Desktop
+@media screen and (min-width: $desktop-breakpoint) {
+  .profile-page {
+    &__section-title {
+      font-size: 24px;
+    }
+  }
+}
