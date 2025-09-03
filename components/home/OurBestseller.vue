@@ -2,9 +2,11 @@
 import ShopItemCard from '~/components/ShopItemCard.vue';
 import type { ShopItemDto } from '~/models/dto/shopItemDto';
 import { useUserStore } from '~/store/userStore';
+import { useFavoritesStore } from '~/store/favoritesStore';
 
 const router = useRouter();
 const userStore = useUserStore();
+const favoritesStore = useFavoritesStore();
 
 const shopItems = fakeDatabase.shopItems.slice(0, 8);
 
@@ -28,10 +30,12 @@ function handleFavorite(value: boolean, shopItem: ShopItemDto) {
   }
 
   if (value) {
+    favoritesStore.addToFavorites(shopItem.id);
     showNotification(`Added "${shopItem.name}" to Favorites`);
     return;
   }
 
+  favoritesStore.removeItem(shopItem.id);
   showNotification(`Removed "${shopItem.name}" from Favorites`);
 }
 </script>

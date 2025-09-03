@@ -1,37 +1,16 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { useUserStore } from '~/store/userStore';
-import type { UserDto } from '~/models/dto/userDto';
+import ProfileGeneralTab from '~/components/profile/ProfileGeneralTab.vue';
+import ProfileAddressTab from '~/components/profile/ProfileAddressTab.vue';
+import ProfileFavoritesTab from '~/components/profile/ProfileFavoritesTab.vue';
+import type { ShopItemDto } from '~/models/dto/shopItemDto';
 
 definePageMeta({
   middleware: 'auth',
 });
 
-const userStore = useUserStore();
-
-const user = computed(() => userStore.user);
-
 const currentTab = ref('general');
-const editedUser = ref<UserDto>({
-  id: user.value?.id ?? '',
-  firstName: user.value?.firstName ?? '',
-  lastName: user.value?.lastName ?? '',
-  email: user.value?.email ?? '',
-  address: {
-    street: user.value?.address?.street ?? '',
-    city: user.value?.address?.city ?? '',
-    zip: user.value?.address?.zip ?? '',
-  },
-});
-const accountLoading = ref(true);
-const saveLoading = ref(false);
-const errors = ref({
-  firstName: '',
-  lastName: '',
-  street: '',
-  city: '',
-  zip: '',
-});
+const profileLoading = ref(true);
 const notificationSnackbar = ref({
   show: false,
   message: '',
@@ -40,182 +19,78 @@ const notificationSnackbar = ref({
 });
 
 onMounted(() => {
-  editedUser.value = { ...user.value };
-  accountLoading.value = false;
+  profileLoading.value = false;
 });
-
-async function saveGeneral() {
-  errors.value.firstName = '';
-  errors.value.lastName = '';
-
-  let valid = true;
-
-  if (!editedUser.value.firstName.trim()) {
-    errors.value.firstName = 'First name is required';
-    valid = false;
-  }
-  if (!editedUser.value.lastName.trim()) {
-    errors.value.lastName = 'Last name is required';
-    valid = false;
-  }
-
-  if (!valid) {
-    return;
-  }
-
-  saveLoading.value = true;
-
-  await waitFor();
-
-  userStore.setUser({
-    ...user.value!,
-    firstName: editedUser.value.firstName,
-    lastName: editedUser.value.lastName,
-  });
-
-  notificationSnackbar.value.show = true;
-  notificationSnackbar.value.color = 'success';
-  notificationSnackbar.value.message = 'User info saved successfully!';
-
-  saveLoading.value = false;
-}
-
-async function saveAddress() {
-  errors.value.street = '';
-  errors.value.city = '';
-  errors.value.zip = '';
-
-  let valid = true;
-
-  if (!editedUser.value.address.street?.trim()) {
-    errors.value.street = 'Street is required';
-    valid = false;
-  }
-  if (!editedUser.value.address.city?.trim()) {
-    errors.value.city = 'City is required';
-    valid = false;
-  }
-  if (!editedUser.value.address.zip?.trim()) {
-    errors.value.zip = 'ZIP is required';
-    valid = false;
-  }
-
-  if (!valid) {
-    return;
-  }
-
-  saveLoading.value = true;
-
-  await waitFor();
-
-  userStore.setUser({
-    ...user.value!,
-    address: { ...editedUser.value.address },
-  });
-
-  notificationSnackbar.value.show = true;
-  notificationSnackbar.value.color = 'success';
-  notificationSnackbar.value.message = 'Address saved successfully!';
-
-  saveLoading.value = false;
-}
 
 function changeTab(newTab: string) {
   currentTab.value = newTab;
 }
+
+function showNotification(message: string) {
+  notificationSnackbar.value.show = true;
+  notificationSnackbar.value.color = 'success';
+  notificationSnackbar.value.message = message;
+}
+
+function handleGeneralSave() {
+  showNotification('User info saved successfully!');
+}
+
+function handleAddressSave() {
+  showNotification('Address saved successfully!');
+}
+
+function handleFavorite(value: boolean, shopItem: ShopItemDto) {
+  if (value) {
+    showNotification(`Added "${shopItem.name}" to Favorites`);
+    return;
+  }
+
+  showNotification(`Removed "${shopItem.name}" from Favorites`);
+}
 </script>
 
 <template>
-  <div v-if="!accountLoading" class="account-page page-width">
-    <div class="account-page__sidebar">
+  <div v-if="!profileLoading" class="profile-page page-width">
+    <div class="profile-page__sidebar">
       <button
-        :class="{ 'account-page__tab--active': currentTab === 'general' }"
-        class="account-page__tab"
+        :class="{ 'profile-page__tab--active': currentTab === 'general' }"
+        class="profile-page__tab"
         @click="changeTab('general')"
       >
         General Info
       </button>
       <button
-        :class="{ 'account-page__tab--active': currentTab === 'address' }"
-        class="account-page__tab"
+        :class="{ 'profile-page__tab--active': currentTab === 'address' }"
+        class="profile-page__tab"
         @click="changeTab('address')"
       >
         Address
       </button>
       <button
-        :class="{ 'account-page__tab--active': currentTab === 'favorites' }"
-        class="account-page__tab"
+        :class="{ 'profile-page__tab--active': currentTab === 'favorites' }"
+        class="profile-page__tab"
         @click="changeTab('favorites')"
       >
         Favorites
       </button>
     </div>
 
-    <div class="account-page__content">
-      <div v-if="currentTab === 'general'" class="account-page__section">
-        <h2 class="account-page__section-title">General Information</h2>
-        <v-text-field
-          v-model="editedUser.email"
-          disabled
-          label="Email"
-          variant="outlined"
-        />
-        <v-text-field
-          v-model="editedUser.firstName"
-          :error-messages="errors.firstName"
-          label="First Name"
-          required
-          variant="outlined"
-        />
-        <v-text-field
-          v-model="editedUser.lastName"
-          :error-messages="errors.lastName"
-          label="Last Name"
-          required
-          variant="outlined"
-        />
-        <v-btn :loading="saveLoading" color="black" @click="saveGeneral">
-          Save
-        </v-btn>
-      </div>
+    <div class="profile-page__content">
+      <ProfileGeneralTab
+        v-if="currentTab === 'general'"
+        @save="handleGeneralSave"
+      />
 
-      <div v-else-if="currentTab === 'address'" class="account-page__section">
-        <h2 class="account-page__section-title">Shipping Address</h2>
-        <v-text-field
-          v-model="editedUser.address.street"
-          :error-messages="errors.street"
-          label="Street"
-          required
-          variant="outlined"
-        />
-        <v-text-field
-          v-model="editedUser.address.city"
-          :error-messages="errors.city"
-          label="City"
-          required
-          variant="outlined"
-        />
-        <v-text-field
-          v-model="editedUser.address.zip"
-          :error-messages="errors.zip"
-          label="ZIP"
-          required
-          variant="outlined"
-        />
-        <v-btn
-          :loading="saveLoading"
-          color="black"
-          type="submit"
-          @click="saveAddress"
-        >
-          Save
-        </v-btn>
-      </div>
+      <ProfileAddressTab
+        v-else-if="currentTab === 'address'"
+        @save="handleAddressSave"
+      />
 
-      <div v-else-if="currentTab === 'favorites'" class="account-page__section">
-        <h2 class="account-page__section-title">Favorites</h2>
-        <div>You haven't added any items to your favorites yet</div>
-      </div>
+      <ProfileFavoritesTab
+        v-else-if="currentTab === 'favorites'"
+        @favorite="handleFavorite"
+      />
     </div>
 
     <v-snackbar
@@ -226,7 +101,7 @@ function changeTab(newTab: string) {
     </v-snackbar>
   </div>
 
-  <div v-else class="account-page page-width">
+  <div v-else class="profile-page page-width">
     <v-progress-circular
       color="black"
       indeterminate
@@ -239,7 +114,7 @@ function changeTab(newTab: string) {
 @import '@/assets/css/variables.scss';
 
 // Mobile
-.account-page {
+.profile-page {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -274,22 +149,11 @@ function changeTab(newTab: string) {
     border-radius: 4px;
     padding: 16px;
   }
-
-  &__section {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  &__section-title {
-    font-size: 18px;
-    font-weight: bold;
-  }
 }
 
 // Tablet
 @media screen and (min-width: $tablet-breakpoint) {
-  .account-page {
+  .profile-page {
     flex-direction: row;
     justify-content: space-between;
 
@@ -307,12 +171,8 @@ function changeTab(newTab: string) {
 
 // Desktop
 @media screen and (min-width: $desktop-breakpoint) {
-  .account-page {
+  .profile-page {
     max-width: 1400px;
-
-    &__section-title {
-      font-size: 24px;
-    }
   }
 }
 </style>
