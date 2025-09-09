@@ -7,11 +7,13 @@ import type { ShopItemDto } from '~/models/dto/shopItemDto';
 import QuantityInput from '~/components/common/QuantityInput.vue';
 import { useUserStore } from '~/store/userStore';
 import { useCartStore } from '~/store/cartStore';
+import { useFavoritesStore } from '~/store/favoritesStore';
 
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
 const cartStore = useCartStore();
+const favoritesStore = useFavoritesStore();
 const slug = route.params.shopItem;
 
 const shopItem = ref<ShopItemDto | null>();
@@ -21,13 +23,16 @@ const loadingShopItem = ref(true);
 const selectedColor = ref<Color | null>(null);
 const selectedSize = ref<Size | null>(null);
 const quantity = ref(1);
-const favorite = ref(false);
 const notificationSnackbar = ref({
   show: false,
   message: '',
   timeout: 2000,
   color: '',
 });
+
+const favorite = computed(() =>
+  favoritesStore.items.includes(shopItem.value?.id ?? ''),
+);
 
 onMounted(() => {
   initShopItem();
@@ -65,13 +70,13 @@ function addToFavorites() {
 
   if (!shopItem.value) return;
 
-  favorite.value = !favorite.value;
-
-  if (favorite.value) {
+  if (!favorite.value) {
+    favoritesStore.addToFavorites(shopItem.value.id);
     showNotification(`Added "${shopItem.value.name}" to Favorites`);
     return;
   }
 
+  favoritesStore.removeItem(shopItem.value.id);
   showNotification(`Removed "${shopItem.value.name}" from Favorites`);
 }
 

@@ -17,6 +17,7 @@ const user = computed(() => userStore.user);
 const userReady = computed(() => {
   return user.value && mounted.value;
 });
+const cartItems = computed(() => cartStore.totalItems);
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
@@ -131,8 +132,8 @@ async function logout() {
 
       <NuxtLink class="cart-link" to="/cart">
         <v-icon size="32">mdi-cart-outline</v-icon>
-        <div v-if="cartStore.totalItems > 0" class="cart-link__count">
-          {{ cartStore.totalItems }}
+        <div v-if="mounted && cartItems > 0" class="cart-link__count">
+          {{ cartItems }}
         </div>
       </NuxtLink>
 
