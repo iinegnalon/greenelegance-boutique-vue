@@ -28,7 +28,11 @@ onMounted(() => {
 });
 
 async function initStripe() {
-  stripe.value = await loadStripe(import.meta.env.VITE_STRIPE_PK!);
+  try {
+    stripe.value = await loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY!);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 // To avoid manual changes to local storage
@@ -118,6 +122,7 @@ function confirmClearCart() {
         </div>
 
         <v-btn
+          :disabled="!stripe || checkoutLoading"
           :loading="checkoutLoading"
           block
           class="cart__checkout-btn"
