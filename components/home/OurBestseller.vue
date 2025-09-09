@@ -8,14 +8,22 @@ const router = useRouter();
 const userStore = useUserStore();
 const favoritesStore = useFavoritesStore();
 
-const shopItems = fakeDatabase.shopItems.slice(0, 8);
-
+const shopItems = ref<ShopItemDto[]>([]);
 const notificationSnackbar = ref({
   show: false,
   message: '',
   timeout: 2000,
   color: '',
 });
+
+onMounted(() => {
+  initItems();
+});
+
+async function initItems() {
+  await waitFor();
+  shopItems.value = fakeDatabase.shopItems.slice(0, 8);
+}
 
 function showNotification(message: string) {
   notificationSnackbar.value.show = true;

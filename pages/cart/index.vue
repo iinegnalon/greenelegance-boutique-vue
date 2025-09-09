@@ -1,7 +1,11 @@
 <script lang="ts" setup>
+import { loadStripe } from '@stripe/stripe-js';
+import Stripe from 'stripe';
 import { useCartStore } from '~/store/cartStore';
 
 const cart = useCartStore();
+
+const stripe = ref<Stripe | null>(null);
 
 const notificationSnackbar = ref({
   show: false,
@@ -11,10 +15,25 @@ const notificationSnackbar = ref({
 });
 const showClearDialog = ref(false);
 const cartLoading = ref(true);
+const mounted = ref(false);
+const checkoutLoading = ref(false);
+
+const totalItems = computed(() => cart.totalItems);
 
 onMounted(() => {
+  mounted.value = true;
+
   refreshItemsInfo();
+  initStripe();
 });
+
+async function initStripe() {
+  try {
+    stripe.value = await loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY!);
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 // To avoid manual changes to local storage
 async function refreshItemsInfo() {
@@ -40,10 +59,27 @@ async function refreshItemsInfo() {
   cart.setCart(updatedItems);
 }
 
-function checkout() {
-  notificationSnackbar.value.show = true;
-  notificationSnackbar.value.color = 'error';
-  notificationSnackbar.value.message = 'Not ready yet, sorry';
+async function checkout() {
+  checkoutLoading.value = true;
+
+  try {
+    const res = await $fetch('/api/create-checkout-session', {
+      method: 'POST',
+      body: { items: cart.items },
+    });
+
+    if (res.id) {
+      await stripe.value?.redirectToCheckout({ sessionId: res.id });
+    }
+  } catch (e) {
+    console.log(e);
+
+    notificationSnackbar.value.show = true;
+    notificationSnackbar.value.color = 'error';
+    notificationSnackbar.value.message = `Something went wrong. Error: ${e}`;
+  } finally {
+    checkoutLoading.value = false;
+  }
 }
 
 function confirmClearCart() {
@@ -54,7 +90,7 @@ function confirmClearCart() {
 
 <template>
   <div class="cart page-width">
-    <h2 class="cart__title">Cart ({{ cart.totalItems }})</h2>
+    <h2 v-if="mounted" class="cart__title">Cart ({{ totalItems }})</h2>
 
     <div v-if="cartLoading">
       <v-progress-circular
@@ -78,7 +114,16 @@ function confirmClearCart() {
 
         <div class="cart__total">Total: ${{ cart.totalPrice / 100 }}</div>
 
+        <div class="cart__hint">
+          <p>Stripe test card info</p>
+          <p>Card number: 4242 4242 4242 4242</p>
+          <p>Expiry date: 01/30</p>
+          <p>CVC: 444</p>
+        </div>
+
         <v-btn
+          :disabled="!stripe || checkoutLoading"
+          :loading="checkoutLoading"
           block
           class="cart__checkout-btn"
           color="black"
@@ -183,6 +228,12 @@ function confirmClearCart() {
     padding: 8px 0;
     border-top: 1px solid $color-background;
     border-bottom: 1px solid $color-background;
+  }
+
+  &__hint p {
+    font-size: 14px;
+    color: $color-gray;
+    margin: 0;
   }
 
   &__checkout-btn {
