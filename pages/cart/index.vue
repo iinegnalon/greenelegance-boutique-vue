@@ -27,9 +27,22 @@ onMounted(() => {
   initStripe();
 });
 
+function showError(message: string) {
+  notificationSnackbar.value.show = true;
+  notificationSnackbar.value.color = 'error';
+  notificationSnackbar.value.message = message;
+}
+
 async function initStripe() {
+  const stripeKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
+
+  if (!stripeKey) {
+    showError('Stripe public key is not configured');
+    return;
+  }
+
   try {
-    stripe.value = await loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY!);
+    stripe.value = await loadStripe(stripeKey);
   } catch (e) {
     console.log(e);
   }
@@ -71,12 +84,16 @@ async function checkout() {
     if (res.id) {
       await stripe.value?.redirectToCheckout({ sessionId: res.id });
     }
-  } catch (e) {
+  } catch (e: any) {
     console.log(e);
 
-    notificationSnackbar.value.show = true;
-    notificationSnackbar.value.color = 'error';
-    notificationSnackbar.value.message = `Something went wrong. Error: ${e}`;
+    let message = 'Server error';
+
+    if (e.statusMessage) {
+      message = e.statusMessage;
+    }
+
+    showError(`Something went wrong. Error: ${message}`);
   } finally {
     checkoutLoading.value = false;
   }
